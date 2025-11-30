@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input:-internal-autofill-selected {
+  background-color: #fbf6e7 !important;
+}

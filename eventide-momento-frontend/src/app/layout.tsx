@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
-import { Anton } from "next/font/google";
+import { Inter } from "next/font/google";
 import { mainMeta } from "@/metadata/mainMetadata";
 
-export const antonFont = Anton({
-  weight: ["400"],
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = mainMeta;
@@ -16,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${antonFont.className}`}>{children}</body>
+      <body className={`${inter.className}`}>{children}</body>
     </html>
   );
 }
