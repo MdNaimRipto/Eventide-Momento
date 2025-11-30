@@ -27,7 +27,7 @@ const ScrollTo = () => {
     <button
       onClick={handleClick}
       aria-label={atTop ? "Scroll Down" : "Scroll to Top"}
-      className={`fixed bottom-16 right-16 z-30 rounded-full border ${
+      className={`fixed bottom-16 right-16 z-[600] rounded-full border ${
         atTop
           ? "text-primary border-primary"
           : "text-secondary1 border-secondary1"
