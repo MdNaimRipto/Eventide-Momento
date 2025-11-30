@@ -1,3 +1,5 @@
+import HomeMain from "@/components/pages/home/HomeMain";
+
 export default function Home() {
-  return <div className="text-6xl">hello</div>;
+  return <HomeMain />;
 }
