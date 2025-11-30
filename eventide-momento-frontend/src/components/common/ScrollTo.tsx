@@ -27,7 +27,11 @@ const ScrollTo = () => {
     <button
       onClick={handleClick}
       aria-label={atTop ? "Scroll Down" : "Scroll to Top"}
-      className="fixed bottom-16 right-16 z-30 rounded-full  text-primary border border-primary p-3 shadow-lg transition-transform duration-500"
+      className={`fixed bottom-16 right-16 z-30 rounded-full border ${
+        atTop
+          ? "text-primary border-primary"
+          : "text-secondary1 border-secondary1"
+      } p-3 shadow-lg transition-transform duration-500`}
       style={{
         transform: `rotate(${atTop ? 180 : 0}deg)`,
       }}

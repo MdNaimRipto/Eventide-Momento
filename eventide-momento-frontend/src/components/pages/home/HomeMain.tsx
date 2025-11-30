@@ -1,4 +1,4 @@
-import Banner from "./Banner";
+import Banner from "./banner/Banner";
 import Categories from "./categories/Categories";
 
 const HomeMain = () => {
