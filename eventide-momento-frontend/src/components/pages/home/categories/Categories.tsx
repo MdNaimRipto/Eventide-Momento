@@ -7,6 +7,9 @@ import Image, { StaticImageData } from "next/image";
 import CategoryOptions from "./CategoryOptions";
 import { useState } from "react";
 import ShutterText from "@/components/animations/ShutterText";
+import OpacityTransition from "@/components/animations/OpacityTransition";
+import CommonButton from "@/components/common/CommonButton";
+import Link from "next/link";
 
 const Categories = () => {
   const lines = ["Explore", "Hobbies", "Together"];
@@ -46,7 +49,7 @@ const Categories = () => {
   };
 
   return (
-    <div className="relative w-full h-[800px] md:h-[750px] lg:h-screen overflow-hidden z-[500]">
+    <div className="relative w-full h-[860px] md:h-[850px] lg:h-screen overflow-hidden z-[500]">
       <div className="absolute z-10 bg-gradient-to-r from-secondary1/40 to-secondary1/50 w-full h-full" />
       <div className="relative w-full h-full overflow-hidden">
         {/* Always-visible base background */}
@@ -86,6 +89,14 @@ const Categories = () => {
             <ShutterText key={i} text={line} delay={i * 0.3} />
           ))}
         </h1>
+        <Link
+          href="/events"
+          className="scale-75 -ml-10 -mt-3 md:scale-100 md:-ml-0 md:-mt-0 xl:mt-4"
+        >
+          <OpacityTransition delay={1}>
+            <CommonButton title="Explore Events" />
+          </OpacityTransition>
+        </Link>
       </div>
     </div>
   );

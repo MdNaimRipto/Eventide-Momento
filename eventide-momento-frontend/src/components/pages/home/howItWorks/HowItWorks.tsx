@@ -1,4 +1,5 @@
 import ScrollFloat from "@/components/animations/ScrollFloat";
+// import { LocalFonts } from "@/components/common/fonts";
 
 const HowItWorks = () => {
   const steps = [
@@ -24,6 +25,11 @@ const HowItWorks = () => {
           >
             {step}
           </ScrollFloat>
+          {/* <span
+            className={`inline-block text-[clamp(1.6rem,4vw,3rem)] ${LocalFonts.anton.className} uppercase md:!text-6xl lg:!text-7xl xl:!text-8xl 2xl:!text-9xl text-primary`}
+          >
+            How it works?
+          </span> */}
         </div>
       ))}
     </div>

@@ -34,7 +34,9 @@ const Navbar = () => {
     <div className="overflow-hidden relative w-full">
       <div
         className={`fixed top-0 left-0 w-full h-[80px] z-40 overflow-hidden ${
-          isHomePage && !isScrolled ? "bg-white/0" : "bg-primary"
+          isHomePage && !isScrolled
+            ? "bg-white/0"
+            : `${isHomePage ? "bg-primary" : "bg-primary"}`
         } duration-700`}
       >
         <div className="flex w-full h-full justify-between items-center px-4 2xl:px-36">
