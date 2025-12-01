@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LocalFonts } from "../common/fonts";
+import ShutterText from "../animations/ShutterText";
 
 const Footer = () => {
   const menuItems = [
@@ -18,7 +19,7 @@ const Footer = () => {
         <h1
           className={`text-6xl md:text-[160px] xl:text-[280px] tracking-widest xl:-mt-10 text-center uppercase text-white ${LocalFonts.anton.className} relative`}
         >
-          Eventide
+          <ShutterText text={"Eventide"} delay={0} />
           <div className="absolute top-0 left-0 w-full h-full z-50 bg-gradient-to-b from-secondary1/10 to-secondary1/70" />
         </h1>
 

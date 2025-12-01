@@ -1,4 +1,6 @@
 import bg from "@/assets/images/home/hero-banner.webp";
+import OpacityTransition from "@/components/animations/OpacityTransition";
+import ShutterText from "@/components/animations/ShutterText";
 import CommonButton from "@/components/common/CommonButton";
 import { LocalFonts } from "@/components/common/fonts";
 import Image from "next/image";
@@ -23,21 +25,25 @@ const Banner = () => {
       <div className={`${parentBase} flex`}>
         <h1 className={`text-white ${textBase}`}>
           {lines.map((line, i) => (
-            <span key={i}>{line}</span>
+            <ShutterText key={i} text={line} delay={i * 0.3} />
           ))}
         </h1>
-        <CommonButton title="Explore Events" />
+        <OpacityTransition delay={1}>
+          <CommonButton title="Explore Events" />
+        </OpacityTransition>
       </div>
       <div
         className={`bg-primary overflow-hidden hidden md:flex ${parentBase}`}
       >
         <h1 className={`text-secondary1 ${textBase}`}>
           {lines.map((line, i) => (
-            <span key={i}>{line}</span>
+            <ShutterText key={i} text={line} delay={i * 0.3} />
           ))}
         </h1>
         <div className="2xl:ml-[3.7rem]">
-          <CommonButton title="Explore Events" />
+          <OpacityTransition delay={1}>
+            <CommonButton title="Explore Events" />
+          </OpacityTransition>
         </div>
       </div>
     </div>
