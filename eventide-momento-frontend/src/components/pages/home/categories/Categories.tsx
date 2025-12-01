@@ -6,6 +6,7 @@ import { LocalFonts } from "@/components/common/fonts";
 import Image, { StaticImageData } from "next/image";
 import CategoryOptions from "./CategoryOptions";
 import { useState } from "react";
+import ShutterText from "@/components/animations/ShutterText";
 
 const Categories = () => {
   const lines = ["Explore", "Hobbies", "Together"];
@@ -82,7 +83,7 @@ const Categories = () => {
           className={`text-primary lg:text-secondary1 text-5xl lg:text-8xl xl:text-[7rem] 2xl:text-9xl flex flex-col gap-2 whitespace-nowrap tracking-[.95px] ${LocalFonts.anton.className}`}
         >
           {lines.map((line, i) => (
-            <span key={i}>{line}</span>
+            <ShutterText key={i} text={line} delay={i * 0.3} />
           ))}
         </h1>
       </div>

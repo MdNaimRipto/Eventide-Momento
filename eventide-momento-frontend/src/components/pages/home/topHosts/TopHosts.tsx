@@ -5,6 +5,7 @@ import { LocalFonts } from "@/components/common/fonts";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
+import ShutterText from "@/components/animations/ShutterText";
 
 const hosts = [
   { name: "Mason Carter", image: host },
@@ -19,10 +20,10 @@ const TopHosts = () => {
   return (
     <div className="container pb-16 px-2 md:px-4 xl:px-16">
       <h1
-        className={`text-secondary1 text-3xl md:text-5xl mb-8 flex flex-col whitespace-nowrap tracking-[.95px] ${LocalFonts.anton.className}`}
+        className={`text-secondary1 text-4xl md:text-5xl xl:text-6xl mb-8 flex flex-col whitespace-nowrap tracking-[.95px] ${LocalFonts.anton.className}`}
       >
         {lines.map((line, i) => (
-          <span key={i}>{line}</span>
+          <ShutterText key={i} text={line} delay={i * 0.3} />
         ))}
       </h1>
       <Swiper
