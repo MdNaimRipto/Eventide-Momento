@@ -169,7 +169,7 @@ const EventsMain = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-16">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-16">
         {events.map((event, i) => (
           <div key={i} className="bg-primary w-full overflow-hidden shadow-lg">
             {/* Image Section */}
@@ -187,7 +187,7 @@ const EventsMain = () => {
             <div className="px-4 py-6 flex flex-col h-1/2 gap-4">
               {/* Title */}
               <h6
-                className={`${LocalFonts.anton.className} text-3xl text-secondary1 leading-tight`}
+                className={`${LocalFonts.anton.className} text-xl xl:text-2xl text-secondary1 leading-tight`}
               >
                 {event.title}
               </h6>
@@ -223,7 +223,10 @@ const EventsMain = () => {
                 </div>
 
                 {/* Button */}
-                <Link href={`/events/${i}`}>
+                <Link
+                  href={`/events/${i}`}
+                  className="scale-90 md:scale-100 -mr-4 md:-mr-0"
+                >
                   <CommonButton title="View Details" />
                 </Link>
               </div>

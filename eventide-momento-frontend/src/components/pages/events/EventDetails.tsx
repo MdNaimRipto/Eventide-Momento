@@ -34,9 +34,9 @@ const EventDetails = () => {
       </div>
 
       {/* Event Info Container */}
-      <div className="container mx-auto px-4 md:px-12 lg:px-24 -mt-[9.6rem] relative z-10 flex flex-col md:flex-row gap-10 justify-center items-center">
+      <div className="container mx-auto px-4 md:px-12 lg:px-24 -mt-[20rem] md:-mt-[9.6rem] relative z-10 flex flex-col md:flex-row gap-10 justify-center items-center">
         {/* Left: Image */}
-        <div className="md:w-1/2 h-[500px] rounded-xl overflow-hidden shadow-lg">
+        <div className="md:w-1/2 h-[400px] md:h-[500px] rounded-xl overflow-hidden shadow-lg">
           <Image
             src={event.image}
             alt={event.title}
@@ -50,7 +50,7 @@ const EventDetails = () => {
         <div className="md:w-1/2 flex flex-col gap-6">
           {/* Title */}
           <h1
-            className={`${LocalFonts.anton.className} text-5xl md:text-6xl leading-tight text-secondary1`}
+            className={`${LocalFonts.anton.className} text-3xl md:text-4xl xl:text-6xl leading-tight text-secondary1`}
           >
             <ShutterText text={event.title} />
           </h1>
@@ -85,7 +85,7 @@ const EventDetails = () => {
           </div>
 
           {/* Description */}
-          <p className="text-secondary1/80 text-base md:text-lg leading-relaxed mt-4">
+          <p className="text-secondary1/80 text-base md:text-sm xl:text-lg leading-relaxed mt-4">
             {event.description}
           </p>
 
