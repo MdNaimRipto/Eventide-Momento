@@ -41,7 +41,7 @@ const ShutterText: React.FC<ShutterTextProps> = ({ text, delay = 0 }) => {
     >
       {letters.map((char, i) => (
         <motion.span key={i} variants={letter} className="inline-block">
-          {char}
+          {char === " " ? "\u00A0" : char}
         </motion.span>
       ))}
     </motion.div>

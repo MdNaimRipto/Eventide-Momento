@@ -17,7 +17,7 @@ interface CategoryOptionsProps {
 
 const CategoryOptions = ({ cards, setActiveBg }: CategoryOptionsProps) => {
   return (
-    <div className="absolute top-[500px] md:top-[450px] lg:top-1/2 -translate-y-1/2 px-2 xl:pl-[16rem] 2xl:pl-0  lg:px-8 2xl:px-[45rem] left-0 w-full h-[500px] md:h-[400px] lg:h-[520px] z-10 overflow-visible">
+    <div className="absolute top-[540px] md:top-[550px] lg:top-1/2 -translate-y-1/2 px-2 xl:pl-[16rem] 2xl:pl-0  lg:px-8 2xl:px-[45rem] left-0 w-full h-[500px] md:h-[400px] lg:h-[520px] z-10 overflow-visible">
       <Swiper
         modules={[Autoplay]}
         slidesPerView={1}

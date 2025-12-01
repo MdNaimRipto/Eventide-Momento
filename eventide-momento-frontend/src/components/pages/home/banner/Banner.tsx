@@ -4,6 +4,7 @@ import ShutterText from "@/components/animations/ShutterText";
 import CommonButton from "@/components/common/CommonButton";
 import { LocalFonts } from "@/components/common/fonts";
 import Image from "next/image";
+import Link from "next/link";
 
 const Banner = () => {
   const lines = ["We Turn", "Events into", "Unforgettable", "Moments"];
@@ -29,7 +30,9 @@ const Banner = () => {
           ))}
         </h1>
         <OpacityTransition delay={1}>
-          <CommonButton title="Explore Events" />
+          <Link href="/events">
+            <CommonButton title="Explore Events" />
+          </Link>
         </OpacityTransition>
       </div>
       <div
@@ -42,7 +45,9 @@ const Banner = () => {
         </h1>
         <div className="2xl:ml-[3.7rem]">
           <OpacityTransition delay={1}>
-            <CommonButton title="Explore Events" />
+            <Link href="/events">
+              <CommonButton title="Explore Events" />
+            </Link>
           </OpacityTransition>
         </div>
       </div>

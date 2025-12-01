@@ -36,17 +36,17 @@ const Footer = () => {
           </div>
 
           {/* Navigation */}
-          <div className="flex flex-col md:flex-row md:flex-wrap justify-center w-full md:w-[240px] lg:w-auto md:justify-start gap-4 relative">
+          <div className="flex flex-col md:flex-row md:flex-wrap justify-center w-full md:w-[240px] lg:w-auto md:justify-start gap-4">
             {menuItems.map((menu, idx) => (
               <Link
                 key={idx}
                 href={menu.path}
-                className={`text-white uppercase tracking-wider text-xl hover:text-white/70 transition ${LocalFonts.anton.className}`}
+                className={`text-white uppercase tracking-wider text-xl hover:text-white/70 transition ${LocalFonts.anton.className} relative`}
               >
                 {menu.item}
+                <div className="absolute top-0 left-0 w-full h-full z-0 bg-gradient-to-b from-secondary1/30 to-secondary1/50" />
               </Link>
             ))}
-            <div className="absolute top-0 left-0 w-full h-full z-50 bg-gradient-to-b from-secondary1/30 to-secondary1/50" />
           </div>
         </div>
       </div>
