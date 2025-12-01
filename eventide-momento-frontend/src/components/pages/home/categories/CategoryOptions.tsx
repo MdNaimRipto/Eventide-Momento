@@ -17,11 +17,34 @@ interface CategoryOptionsProps {
 
 const CategoryOptions = ({ cards, setActiveBg }: CategoryOptionsProps) => {
   return (
-    <div className="absolute top-1/2 -translate-y-1/2 px-36 left-0 w-full h-[520px] z-10 overflow-visible">
+    <div className="absolute top-[500px] md:top-[450px] lg:top-1/2 -translate-y-1/2 px-2 xl:pl-[16rem] 2xl:pl-0  lg:px-8 2xl:px-[45rem] left-0 w-full h-[500px] md:h-[400px] lg:h-[520px] z-10 overflow-visible">
       <Swiper
         modules={[Autoplay]}
-        slidesPerView={4}
+        slidesPerView={1}
         spaceBetween={40}
+        centeredSlides
+        breakpoints={{
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 40,
+            centeredSlides: true,
+          },
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 40,
+            centeredSlides: false,
+          },
+          1280: {
+            slidesPerView: 3,
+            spaceBetween: 40,
+            centeredSlides: false,
+          },
+          1800: {
+            slidesPerView: 3,
+            spaceBetween: 40,
+            centeredSlides: true,
+          },
+        }}
         loop={true}
         autoplay={{ delay: 2000, disableOnInteraction: false }}
         speed={1600}
@@ -37,8 +60,16 @@ const CategoryOptions = ({ cards, setActiveBg }: CategoryOptionsProps) => {
             {({ isActive, isPrev, isNext }) => (
               <div
                 className={`relative overflow-hidden w-full h-full rounded-xl transition-all duration-700
-                  ${isActive ? "border-4 border-secondary2 scale-105 z-20" : ""}
-                  ${isPrev || isNext ? "scale-100 z-10 border-none" : ""}
+                  ${
+                    isActive
+                      ? "border-4 border-secondary2 md:scale-105 z-20"
+                      : ""
+                  }
+                  ${
+                    isPrev || isNext
+                      ? "scale-90 lg:scale-100 z-10 border-none"
+                      : ""
+                  }
                 `}
               >
                 <Image
@@ -46,9 +77,9 @@ const CategoryOptions = ({ cards, setActiveBg }: CategoryOptionsProps) => {
                   alt={card.title}
                   className="object-cover w-full h-full brightness-75"
                 />
-                <div className="absolute bottom-12 left-8 flex items-center gap-2">
+                <div className="absolute bottom-12 left-4 xl:left-8 flex items-center gap-2">
                   <h6
-                    className={`${LocalFonts.anton.className} text-primary text-3xl`}
+                    className={`${LocalFonts.anton.className} text-primary text-2xl xl:text-3xl`}
                   >
                     {card.title}
                   </h6>

@@ -1,51 +1,71 @@
+"use client";
+
 import host from "@/assets/images/home/hero-banner.webp";
 import { LocalFonts } from "@/components/common/fonts";
 import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
 
 const hosts = [
-  {
-    name: "Ariana Ford",
-    image: host,
-  },
-  {
-    name: "Lucas Bennett",
-    image: host,
-  },
-  {
-    name: "Meera Das",
-    image: host,
-  },
+  { name: "Mason Carter", image: host },
+  { name: "Aiden Brooks", image: host },
+  { name: "Riley Turner", image: host },
 ];
+
+// const lines = ["Meet", "With Our", "Top Hosts"];
+const lines = ["Meet", "Our Finest", "Top Event Hosts"];
 
 const TopHosts = () => {
   return (
-    <div className="container pb-16 grid grid-cols-3 gap-16 px-0">
-      {hosts.map((host, index) => (
-        <div key={index} className="relative h-[600px] overflow-hidden">
-          {/* Host Image */}
-          <Image
-            src={host.image}
-            alt={host.name}
-            fill
-            className="object-cover"
-          />
+    <div className="container pb-16 px-2 md:px-4 xl:px-16">
+      <h1
+        className={`text-secondary1 text-3xl md:text-5xl mb-8 flex flex-col whitespace-nowrap tracking-[.95px] ${LocalFonts.anton.className}`}
+      >
+        {lines.map((line, i) => (
+          <span key={i}>{line}</span>
+        ))}
+      </h1>
+      <Swiper
+        modules={[Autoplay]}
+        autoplay={{ delay: 2500, disableOnInteraction: false }}
+        speed={1200}
+        loop={true}
+        spaceBetween={20}
+        breakpoints={{
+          0: { slidesPerView: 1 },
+          768: { slidesPerView: 2 },
+          1024: { slidesPerView: 3, spaceBetween: 40 },
+        }}
+        className="w-full h-full"
+      >
+        {hosts.map((host, index) => (
+          <SwiperSlide key={index}>
+            <div className="relative h-[500px] 2xl:h-[600px] overflow-hidden">
+              {/* Host Image */}
+              <Image
+                src={host.image}
+                alt={host.name}
+                fill
+                className="object-cover"
+              />
 
-          {/* Rank Badge */}
+              {/* Rank Badge */}
+              <span
+                className={`absolute top-10 left-4 text-white ${LocalFonts.anton.className} text-8xl`}
+              >
+                {String(index + 1).padStart(2, "0")}
+              </span>
 
-          <span
-            className={`absolute top-10 left-8 text-white ${LocalFonts.anton.className} text-9xl`}
-          >
-            {String(index + 1).padStart(2, "0")}
-          </span>
-
-          {/* Host Name */}
-          <div
-            className={`absolute left-8 bottom-16 text-6xl ${LocalFonts.anton.className} text-primary`}
-          >
-            {host.name}
-          </div>
-        </div>
-      ))}
+              {/* Host Name */}
+              <div
+                className={`absolute left-4 bottom-16 text-4xl ${LocalFonts.anton.className} text-primary`}
+              >
+                {host.name}
+              </div>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 };

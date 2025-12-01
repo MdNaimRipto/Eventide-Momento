@@ -27,7 +27,7 @@ const ScrollTo = () => {
     <button
       onClick={handleClick}
       aria-label={atTop ? "Scroll Down" : "Scroll to Top"}
-      className={`fixed bottom-16 right-16 z-[600] rounded-full border ${
+      className={`fixed bottom-8 right-8 md:bottom-16 md:right-16 z-[600] rounded-full border ${
         atTop
           ? "text-primary border-primary"
           : "text-secondary1 border-secondary1"
@@ -36,7 +36,7 @@ const ScrollTo = () => {
         transform: `rotate(${atTop ? 180 : 0}deg)`,
       }}
     >
-      <ArrowUp className="w-8 h-8 animate-pulse" />
+      <ArrowUp className="w-6 h-6 md:w-8 md:h-8 animate-pulse" />
     </button>
   );
 };

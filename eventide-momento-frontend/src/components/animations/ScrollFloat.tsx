@@ -2,6 +2,7 @@
 import React, { useEffect, useMemo, useRef, ReactNode, RefObject } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { LocalFonts } from "../common/fonts";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,7 +22,6 @@ const ScrollFloat: React.FC<ScrollFloatProps> = ({
   children,
   scrollContainerRef,
   containerClassName = "",
-  textClassName = "",
   animationDuration = 1,
   ease = "back.inOut(2)",
   scrollStart = "center bottom+=50%",
@@ -92,7 +92,7 @@ const ScrollFloat: React.FC<ScrollFloatProps> = ({
       className={`my-5 overflow-hidden ${containerClassName}`}
     >
       <span
-        className={`inline-block text-[clamp(1.6rem,4vw,3rem)] leading-[1.5] ${textClassName}`}
+        className={`inline-block text-[clamp(1.6rem,4vw,3rem)] ${LocalFonts.anton.className} uppercase md:!text-6xl lg:!text-7xl xl:!text-8xl 2xl:!text-9xl text-primary`}
       >
         {splitText}
       </span>

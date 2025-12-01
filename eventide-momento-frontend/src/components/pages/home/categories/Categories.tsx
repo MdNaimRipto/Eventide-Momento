@@ -44,11 +44,8 @@ const Categories = () => {
     }, 1600); // match your transition duration
   };
 
-  const parentBase =
-    "absolute right-0 top-0 h-full xl:w-[765px] 2xl:w-2/5 z-30 container flex flex-col justify-center gap-6";
-
   return (
-    <div className="relative w-full h-screen overflow-hidden z-[500]">
+    <div className="relative w-full h-[800px] md:h-[750px] lg:h-screen overflow-hidden z-[500]">
       <div className="absolute z-10 bg-gradient-to-r from-secondary1/40 to-secondary1/50 w-full h-full" />
       <div className="relative w-full h-full overflow-hidden">
         {/* Always-visible base background */}
@@ -78,9 +75,11 @@ const Categories = () => {
       <CategoryOptions cards={sampleCards} setActiveBg={handleBgChange} />
 
       {/* Text Layer */}
-      <div className={`bg-primary overflow-hidden ${parentBase}`}>
+      <div
+        className={`lg:bg-primary overflow-hidden absolute right-0 top-0 h-full lg:w-[440px] xl:w-[550px] 2xl:w-[764px] z-30 container flex flex-col lg:justify-center gap-6 mt-10 lg:mt-0`}
+      >
         <h1
-          className={`text-secondary1 text-9xl flex flex-col gap-2 whitespace-nowrap tracking-[.95px] ${LocalFonts.anton.className}`}
+          className={`text-primary lg:text-secondary1 text-5xl lg:text-8xl xl:text-[7rem] 2xl:text-9xl flex flex-col gap-2 whitespace-nowrap tracking-[.95px] ${LocalFonts.anton.className}`}
         >
           {lines.map((line, i) => (
             <span key={i}>{line}</span>

@@ -5,9 +5,9 @@ import { ReactNode } from "react";
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="w-full min-h-screen relative">
+    <div>
       <Navbar />
-      {children}
+      <div className="w-full min-h-screen relative">{children}</div>
       <Footer />
       <ScrollTo />
     </div>
