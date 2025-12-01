@@ -39,11 +39,13 @@ const Navbar = () => {
       >
         <div className="flex w-full h-full justify-between items-center px-4 2xl:px-36">
           <NavLogo />
-          <Hamburger
-            toggled={isOpen}
-            toggle={setOpen}
-            color={isHomePage && !isScrolled ? "#ffffff" : "#000000"}
-          />
+          <div className="scale-90 md:scale-100">
+            <Hamburger
+              toggled={isOpen}
+              toggle={setOpen}
+              color={isHomePage && !isScrolled ? "#ffffff" : "#000000"}
+            />
+          </div>
         </div>
       </div>
       <NavItems isOpen={isOpen} setIsOpen={setOpen} />

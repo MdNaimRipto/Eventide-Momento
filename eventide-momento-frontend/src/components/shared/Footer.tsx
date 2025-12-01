@@ -13,19 +13,18 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <div className="bg-secondary1 w-full h-[600px] flex flex-col justify-between">
-      <div className="container relative p-16 overflow-hidden">
+    <div className="bg-secondary1 w-full h-[580px] md:h-[480px] xl:h-[600px] flex flex-col justify-between relative z-[650]">
+      <div className="container relative p-6 xl:p-16 overflow-hidden">
         <h1
-          className={`text-[280px] tracking-widest -mt-20 text-center uppercase text-white ${LocalFonts.anton.className} relative`}
+          className={`text-6xl md:text-[160px] xl:text-[280px] tracking-widest xl:-mt-10 text-center uppercase text-white ${LocalFonts.anton.className} relative`}
         >
-          {/* Galacraft */}
           Eventide
           <div className="absolute top-0 left-0 w-full h-full z-50 bg-gradient-to-b from-secondary1/10 to-secondary1/70" />
         </h1>
 
-        <div className="flex items-start justify-between px-4 mt-10">
+        <div className="flex flex-col md:flex-row items-start justify-between md:px-8 xl:px-4 mt-10 gap-6 xl:gap-0 text-center md:text-left">
           {/* Left Description */}
-          <div className="w-[400px] relative">
+          <div className="md:w-[400px] relative">
             <div className="absolute top-0 left-0 w-full h-full z-50 bg-gradient-to-b from-secondary1/30 to-secondary1/60" />
             <p
               className={`${LocalFonts.anton.className} text-white text-xl leading-snug`}
@@ -36,7 +35,7 @@ const Footer = () => {
           </div>
 
           {/* Navigation */}
-          <div className="flex flex-col xl:flex-row gap-4 relative">
+          <div className="flex flex-col md:flex-row md:flex-wrap justify-center w-full md:w-[240px] lg:w-auto md:justify-start gap-4 relative">
             {menuItems.map((menu, idx) => (
               <Link
                 key={idx}
@@ -54,7 +53,7 @@ const Footer = () => {
       {/* Bottom Copyright */}
       <div className="w-full pb-6">
         <p className="text-center text-white/60 text-sm">
-          © {year} Galacraft. All rights reserved.
+          © {year} Eventide Momento. All rights reserved.
         </p>
       </div>
     </div>

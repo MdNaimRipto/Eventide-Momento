@@ -7,8 +7,8 @@ const Banner = () => {
   const lines = ["We Turn", "Events into", "Unforgettable", "Moments"];
 
   const parentBase =
-    "absolute left-0 top-0 h-full xl:w-[765px] 2xl:w-2/5 z-30 container flex flex-col justify-center gap-6";
-  const textBase = `text-9xl flex flex-col gap-2 whitespace-nowrap tracking-[.95px] 2xl:ml-[3.7rem] ${LocalFonts.anton.className}`;
+    "absolute left-0 top-0 h-full md:w-[535px] lg:w-[518px] xl:w-[550px] 2xl:w-[764px] z-30 container flex-col justify-center gap-6";
+  const textBase = `text-5xl md:text-8xl 2xl:text-9xl flex flex-col gap-2 whitespace-nowrap tracking-[.95px] 2xl:ml-[3.7rem] ${LocalFonts.anton.className}`;
 
   return (
     <div className="relative w-full h-screen">
@@ -20,7 +20,7 @@ const Banner = () => {
           className="w-full h-full object-cover"
         />
       </div>
-      <div className={`${parentBase}`}>
+      <div className={`${parentBase} flex`}>
         <h1 className={`text-white ${textBase}`}>
           {lines.map((line, i) => (
             <span key={i}>{line}</span>
@@ -28,7 +28,9 @@ const Banner = () => {
         </h1>
         <CommonButton title="Explore Events" />
       </div>
-      <div className={`bg-primary overflow-hidden ${parentBase}`}>
+      <div
+        className={`bg-primary overflow-hidden hidden md:flex ${parentBase}`}
+      >
         <h1 className={`text-secondary1 ${textBase}`}>
           {lines.map((line, i) => (
             <span key={i}>{line}</span>
