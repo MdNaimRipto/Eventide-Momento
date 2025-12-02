@@ -6,22 +6,22 @@ import { ReactNode } from "react";
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex flex-col min-h-screen">
-      <SidebarProvider>
-        <AppSidebar />
-        <main className="w-full">
-          <DashboardNav />
-          <br />
-          <div className="min-h-screen">
-            <div className="container px-4 mx-auto">
-              <SidebarTrigger />
-            </div>
-            {children}
-          </div>
-          <Footer />
-        </main>
-      </SidebarProvider>
-    </div>
+    // <div className="flex flex-col min-h-screen">
+    <SidebarProvider>
+      <AppSidebar />
+      <main className="w-full">
+        <DashboardNav />
+        {/* <br /> */}
+        {/* <div className="min-h-screen"> */}
+        <div className="container px-4 mx-auto">
+          <SidebarTrigger />
+          {children}
+        </div>
+        {/* </div> */}
+        {/* <Footer /> */}
+      </main>
+    </SidebarProvider>
+    // </div>
   );
 };
 
