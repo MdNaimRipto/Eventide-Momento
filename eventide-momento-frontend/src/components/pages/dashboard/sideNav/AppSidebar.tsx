@@ -20,17 +20,27 @@ const AppSidebar = () => {
 
   const items = [
     {
-      title: "Users",
+      title: "Users Admin",
       url: "/dashboard/users",
       icon: FaUser,
     },
     {
-      title: "Events",
+      title: "Events Admin",
       url: "/dashboard/events",
       icon: MdOutlineEmojiEvents,
     },
     {
-      title: "My Profile",
+      title: "My Profile (All)",
+      url: "/dashboard/profile",
+      icon: AiOutlineProfile,
+    },
+    {
+      title: "My Events (All users)",
+      url: "/dashboard/profile",
+      icon: AiOutlineProfile,
+    },
+    {
+      title: "Events (Host)",
       url: "/dashboard/profile",
       icon: AiOutlineProfile,
     },
