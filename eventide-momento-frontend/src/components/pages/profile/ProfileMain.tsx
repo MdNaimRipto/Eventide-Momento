@@ -2,15 +2,14 @@
 
 import { useSearchParams } from "next/navigation";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
-
 import ProfileHeader from "./ProfileHeader";
 import About from "./tabs/About";
 import AttendedEvents from "./tabs/AttendedEvents";
-import ManageEvents from "./tabs/ManageEvents";
-import ManageUsers from "./tabs/ManageUsers";
 import UpcomingEvents from "./tabs/UpcomingEvents";
 import TabsSection from "./TabsSection";
 import Settings from "./tabs/Settings";
+import ManageEvents from "./tabs/manageEvents/ManageEvents";
+import ManageUsers from "./tabs/manageUsers/ManageUsers";
 
 export default function ProfileMain() {
   const searchParams = useSearchParams();
@@ -28,7 +27,7 @@ export default function ProfileMain() {
   const defaultTab = savedTab || tabs[0].value;
 
   return (
-    <div className="px-4 2xl:px-0 2xl:max-w-[1600px] mx-auto py-10">
+    <div className="px-4 2xl:max-w-[1600px] mx-auto py-10">
       <ProfileHeader />
 
       <Tabs value={defaultTab} className="w-full mt-6">
