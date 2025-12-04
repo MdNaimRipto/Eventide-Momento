@@ -1,18 +1,7 @@
-import ShutterText from "@/components/animations/ShutterText";
 import EventCard from "@/components/common/cards/EventCard";
-import { LocalFonts } from "@/components/common/fonts";
+import EventHeaderSection from "./EventHeaderSection";
 
 const EventsMain = () => {
-  const categories = [
-    { title: "All" },
-    { title: "Concert" },
-    { title: "Workshop" },
-    { title: "Meetup" },
-    { title: "Dinner" },
-    { title: "Hiking" },
-    { title: "Exhibition" },
-  ];
-
   const events = [
     {
       id: 1,
@@ -124,48 +113,44 @@ const EventsMain = () => {
     },
   ];
 
-  const lines = ["Explore New", "Events Around You"];
-
   return (
     <div className="px-4 2xl:px-0 2xl:max-w-[1600px] mx-auto my-20">
-      {/* Heading */}
-      <div className="flex flex-col gap-4 py-10">
-        <h2
-          className={`text-3xl md:text-4xl lg:text-5xl text-coal ${LocalFonts.anton.className} text-secondary1`}
-        >
-          {lines.map((line, i) => (
-            <ShutterText key={i} text={line} delay={i * 0.3} />
-          ))}
-        </h2>
-      </div>
-
-      {/* Categories + Search */}
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        {/* Categories */}
-        <div className="flex flex-wrap items-center gap-3">
-          {categories.map((category, index) => (
-            <button
-              key={index}
-              className={`${
-                category.title === "All"
-                  ? "text-secondary1 border border-secondary2"
-                  : "text-secondary1 border"
-              } hover:text-secondary hover:border-secondary text-sm font-semibold capitalize rounded-[200px] py-2 px-6 transition duration-300`}
-            >
-              {category.title}
-            </button>
-          ))}
+      {/* <div>
+        <div className="flex flex-col gap-4 py-10">
+          <h2
+            className={`text-3xl md:text-4xl lg:text-5xl text-coal ${LocalFonts.anton.className} text-secondary1`}
+          >
+            {lines.map((line, i) => (
+              <ShutterText key={i} text={line} delay={i * 0.3} />
+            ))}
+          </h2>
         </div>
 
-        {/* Search Field */}
-        <div>
-          <input
-            type="text"
-            placeholder="Search events..."
-            className="border border-gray-300 rounded-full py-2 px-4 text-sm focus:outline-none focus:border-secondary"
-          />
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center gap-3">
+            {categories.map((category, index) => (
+              <button
+                key={index}
+                className={`${
+                  category.title === "All"
+                    ? "text-secondary1 border border-secondary2"
+                    : "text-secondary1 border"
+                } hover:text-secondary hover:border-secondary text-sm font-semibold capitalize rounded-[200px] py-2 px-6 transition duration-300`}
+              >
+                {category.title}
+              </button>
+            ))}
+          </div>
+          <div>
+            <input
+              type="text"
+              placeholder="Search events..."
+              className="border border-gray-300 rounded-full py-2 px-4 text-sm focus:outline-none focus:border-secondary"
+            />
+          </div>
         </div>
-      </div>
+      </div> */}
+      <EventHeaderSection />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-16">
         {events.map((event, i) => (
