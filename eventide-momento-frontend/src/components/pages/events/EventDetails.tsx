@@ -7,6 +7,7 @@ import CommonButton from "@/components/common/CommonButton";
 import bg01 from "@/assets/images/home/hero-banner.webp";
 import ShutterText from "@/components/animations/ShutterText";
 import Reviews from "./Reviews";
+import EventExtraSection from "./EventExtraSection";
 
 const EventDetails = () => {
   // Example event data (you can fetch this dynamically later)
@@ -97,6 +98,7 @@ const EventDetails = () => {
           </div>
         </div>
       </div>
+      <EventExtraSection />
       <Reviews />
     </div>
   );
