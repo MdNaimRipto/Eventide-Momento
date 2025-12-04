@@ -39,7 +39,7 @@ const Navbar = () => {
             : `${isHomePage ? "bg-primary" : "bg-primary"}`
         } duration-700`}
       >
-        <div className="flex w-full h-full justify-between items-center px-4 2xl:px-36">
+        <div className="flex w-full h-full justify-between items-center px-4 2xl:px-0 2xl:max-w-[1600px] mx-auto">
           <NavLogo />
           <div className="scale-90 md:scale-100">
             <Hamburger
