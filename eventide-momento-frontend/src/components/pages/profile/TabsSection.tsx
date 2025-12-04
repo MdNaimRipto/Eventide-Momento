@@ -10,7 +10,7 @@ export default function TabsSection() {
     { tab: "Manage Events", value: "manage-events" },
     { tab: "Manage Users", value: "manage-users" },
     { tab: "Upcoming Events", value: "upcoming-events" },
-    { tab: "Completed Events", value: "completed-events" },
+    { tab: "Attended Events", value: "completed-events" },
     { tab: "About", value: "about" },
     { tab: "Settings", value: "settings" },
   ];
@@ -22,7 +22,7 @@ export default function TabsSection() {
   };
 
   return (
-    <TabsList className="bg-white pb-0 pt-[5.2px] border-b border-b-secondary1/10 overflow-x-auto scrollBarHidden w-full items-start justify-start">
+    <TabsList className="bg-white pb-0 pt-0 md:pt-[5.2px] border-b border-b-secondary1/10 overflow-x-auto scrollBarHidden w-full items-start justify-start">
       {values.map((tab, i) => (
         <TabsTrigger
           key={i}
