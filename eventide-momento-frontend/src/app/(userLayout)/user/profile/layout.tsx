@@ -6,7 +6,7 @@ const UsersLayout = ({ children }: { children: ReactNode }) => {
   return (
     <div>
       <Navbar />
-      <main className="container px-4 py-8 min-h-screen">{children}</main>
+      <main className="min-h-screen">{children}</main>
       <Footer />
     </div>
   );
