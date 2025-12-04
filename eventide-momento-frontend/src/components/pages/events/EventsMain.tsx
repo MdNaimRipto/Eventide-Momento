@@ -127,7 +127,7 @@ const EventsMain = () => {
   const lines = ["Explore New", "Events Around You"];
 
   return (
-    <div className="px-4 2xl:px-0 2xl:max-w-[1600px] mx-auto my-20">
+    <div className="px-4 2xl:max-w-[1600px] mx-auto my-20">
       {/* Heading */}
       <div className="flex flex-col gap-4 py-10">
         <h2
