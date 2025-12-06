@@ -1,17 +1,22 @@
 import { AiOutlineUser } from "react-icons/ai";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, Ref, SetStateAction } from "react";
 import { Fade as Hamburger } from "hamburger-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LocalFonts } from "@/components/common/fonts";
+import { useUserContext } from "@/contexts/AuthContext";
+import UserProfilePanel from "./UserProfilePanel";
 
 const NavItems = ({
   isOpen,
   setIsOpen,
+  menuRef,
 }: {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  menuRef: Ref<HTMLDivElement>;
 }) => {
+  const { user } = useUserContext();
   const pathName = usePathname();
 
   const menuItems = [
@@ -40,6 +45,7 @@ const NavItems = ({
 
   return (
     <div
+      ref={menuRef}
       className={`fixed top-0 h-screen w-4/5 md:w-2/4 lg:w-2/5 xl:w-2/6 bg-white brightness-95 z-[700] ${
         isOpen ? "right-0" : "-right-full"
       } duration-700`}
@@ -68,29 +74,51 @@ const NavItems = ({
         ))}
       </ul>
 
-      <div className="absolute bottom-8 left-8 md:bottom-16 md:left-16 flex items-center gap-2">
-        <AiOutlineUser className="text-5xl md:text-6xl border border-black rounded-full p-1" />
-        <div className="flex flex-col gap-1">
-          <h6 className={`${LocalFonts.anton.className} text-base md:text-xl`}>
-            <Link
-              className="hover:text-secondary1 duration-700"
-              href={"/auth/login"}
+      {user ? (
+        // <div className="absolute bottom-8 left-8 md:bottom-16 md:left-16 flex items-center gap-2">
+        //   <AiOutlineUser className="text-5xl md:text-6xl border border-black rounded-full p-1" />
+        //   <Link href={"/user/profile"} className="flex flex-col gap-1">
+        //     <h6
+        //       className={`${LocalFonts.anton.className} text-base md:text-xl hover:text-secondary1 duration-700`}
+        //     >
+        //       Hi {user.userName}!
+        //     </h6>
+        //     <button className="text-[10px] md:text-xs text-start font-light">
+        //       Profile & Dashboard
+        //     </button>
+        //   </Link>
+        // </div>
+        <UserProfilePanel />
+      ) : (
+        <div className="absolute bottom-8 left-8 md:bottom-16 md:left-16 flex items-center gap-2">
+          <AiOutlineUser className="text-5xl md:text-6xl border border-black rounded-full p-1" />
+          <div className="flex flex-col gap-1">
+            <h6
+              className={`${LocalFonts.anton.className} text-base md:text-xl`}
             >
-              Login
-            </Link>{" "}
-            /{" "}
-            <Link
-              className="hover:text-secondary1 duration-700"
-              href={"/auth/register"}
+              <Link
+                className="hover:text-secondary1 duration-700"
+                href={"/auth/login"}
+              >
+                Login
+              </Link>{" "}
+              /{" "}
+              <Link
+                className="hover:text-secondary1 duration-700"
+                href={"/auth/register"}
+              >
+                Register
+              </Link>
+            </h6>
+            <button
+              disabled
+              className="text-[10px] md:text-xs text-start font-light cursor-not-allowed text-black/40"
             >
-              Register
-            </Link>
-          </h6>
-          <button className="text-[10px] md:text-xs text-start font-light">
-            Profile & Dashboard
-          </button>
+              Profile & Dashboard
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -14,7 +14,7 @@ const OpacityTransition = ({
       initial={{ y: 0, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ ease: "easeInOut", duration: 1, delay }}
-      className="inline-block"
+      className="inline-block w-full"
     >
       {children}
     </motion.div>

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import NavLogo from "./NavLogo";
 import { Fade as Hamburger } from "hamburger-react";
 import NavItems from "./NavItems";
@@ -11,22 +11,44 @@ const Navbar = () => {
 
   const pathname = usePathname();
 
+  // For detecting clicks on the hamburger button
+  const hamburgerRef = useRef<HTMLDivElement>(null);
+
+  // For detecting clicks inside the opened menu (NavItems)
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Scroll listener
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 0);
     };
 
     window.addEventListener("scroll", handleScroll);
-
-    // Cleanup the event listener
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Outside-click listener
+  useEffect(() => {
+    if (!isOpen) return;
+
+    function handleClickOutside(e: MouseEvent) {
+      const target = e.target as Node;
+
+      const clickedHamburger = hamburgerRef.current?.contains(target) ?? false;
+
+      const clickedMenu = menuRef.current?.contains(target) ?? false;
+
+      if (!clickedHamburger && !clickedMenu) {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   const isHomePage = pathname === "/";
 
@@ -34,14 +56,14 @@ const Navbar = () => {
     <div className="overflow-hidden relative w-full">
       <div
         className={`fixed top-0 left-0 w-full h-[80px] z-40 overflow-hidden ${
-          isHomePage && !isScrolled
-            ? "bg-white/0"
-            : `${isHomePage ? "bg-primary" : "bg-primary"}`
+          isHomePage && !isScrolled ? "bg-white/0" : "bg-primary"
         } duration-700`}
       >
         <div className="flex w-full h-full justify-between items-center px-4 2xl:max-w-[1600px] mx-auto">
           <NavLogo />
-          <div className="scale-90 md:scale-100">
+
+          {/* Wrap hamburger for ref */}
+          <div ref={hamburgerRef} className="scale-90 md:scale-100">
             <Hamburger
               toggled={isOpen}
               toggle={setOpen}
@@ -50,7 +72,9 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <NavItems isOpen={isOpen} setIsOpen={setOpen} />
+
+      {/* Pass ref to your nav menu */}
+      <NavItems isOpen={isOpen} setIsOpen={setOpen} menuRef={menuRef} />
     </div>
   );
 };

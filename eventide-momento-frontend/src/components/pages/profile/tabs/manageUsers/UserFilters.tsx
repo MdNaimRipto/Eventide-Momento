@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Select,
   SelectContent,
@@ -7,75 +9,62 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 
 const UserFilters = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // Initialize state from URL once
+  const [searchTerm, setSearchTerm] = useState(
+    searchParams.get("searchTerm") || ""
+  );
+  const [role, setRole] = useState(searchParams.get("role") || "");
+
+  // Update URL when searchTerm or role changes
+  useEffect(() => {
+    const params = new URLSearchParams();
+
+    if (searchTerm) params.set("searchTerm", searchTerm);
+    if (role) params.set("role", role);
+
+    // Only replace if URL is different to avoid unnecessary renders
+    const newUrl = `${pathname}${
+      params.toString() ? `?${params.toString()}` : ""
+    }`;
+    if (newUrl !== window.location.pathname + window.location.search) {
+      router.replace(newUrl, { scroll: false });
+    }
+  }, [searchTerm, role, router, pathname]); // ✅ Removed searchParams from deps
+
+  const resetFilters = () => {
+    setSearchTerm("");
+    setRole("");
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-7 gap-4 mb-6">
       <Input
         placeholder="Search..."
-        // value={filters.searchTerm || ""}
-        // onChange={(e) => handleFilterChange("searchTerm", e.target.value)}
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
         className="w-full md:col-span-2"
       />
-      <Select
-      // onValueChange={(value) => handleFilterChange("role", value)}
-      // value={filters.role || ""}
-      >
+      <Select value={role} onValueChange={(value) => setRole(value)}>
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Role" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="driver">Driver</SelectItem>
-          <SelectItem value="rider">Rider</SelectItem>
-        </SelectContent>
-      </Select>
-      <Select
-      // onValueChange={(value) => handleFilterChange("isActive", value)}
-      // value={filters.isActive || ""}
-      >
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder="Active Status" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="active">Active</SelectItem>
-          <SelectItem value="inactive">Inactive</SelectItem>
-        </SelectContent>
-      </Select>
-      <Select
-      // onValueChange={(value) => handleFilterChange("isBlocked", value)}
-      // value={filters.isActive || ""}
-      >
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder="Block Status" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="false">Open</SelectItem>
-          <SelectItem value="true">Blocked</SelectItem>
-        </SelectContent>
-      </Select>
-      <Select
-      // onValueChange={(value) =>
-      //   handleFilterChange(
-      //     "isApproved",
-      //     value === "true" ? "true" : "false"
-      //   )
-      // }
-      // value={
-      //   filters.isApproved !== undefined ? String(filters.isApproved) : ""
-      // }
-      >
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder="Approval" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="true">Approved</SelectItem>
-          <SelectItem value="false">Suspended</SelectItem>
+          <SelectItem value="HOST">Host</SelectItem>
+          <SelectItem value="USER">User</SelectItem>
         </SelectContent>
       </Select>
       <Button
-        // onClick={resetFilters}
         variant="outline"
         className="w-full md:w-auto"
+        onClick={resetFilters}
       >
         Reset Filters
       </Button>
