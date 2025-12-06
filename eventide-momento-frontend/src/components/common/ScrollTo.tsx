@@ -30,7 +30,7 @@ const ScrollTo = () => {
       className={`fixed bottom-8 right-8 md:bottom-16 md:right-16 z-[600] rounded-full border ${
         atTop
           ? "text-primary border-primary"
-          : "text-secondary1 border-secondary1"
+          : "text-secondary1 border-secondary1 bg-primary"
       } p-3 shadow-lg transition-transform duration-500`}
       style={{
         transform: `rotate(${atTop ? 180 : 0}deg)`,
