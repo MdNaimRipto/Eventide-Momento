@@ -1,9 +1,11 @@
 "use client";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { GoArrowUp as ArrowUp } from "react-icons/go";
 
 const ScrollTo = () => {
   const [atTop, setAtTop] = useState(true);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,7 +30,7 @@ const ScrollTo = () => {
       onClick={handleClick}
       aria-label={atTop ? "Scroll Down" : "Scroll to Top"}
       className={`fixed bottom-8 right-8 md:bottom-16 md:right-16 z-[600] rounded-full border ${
-        atTop
+        atTop && pathname === "/"
           ? "text-primary border-primary"
           : "text-secondary1 border-secondary1 bg-primary"
       } p-3 shadow-lg transition-transform duration-500`}

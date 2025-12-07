@@ -4,30 +4,39 @@ import Image from "next/image";
 import Link from "next/link";
 import { LocalFonts } from "@/components/common/fonts";
 import CommonButton from "@/components/common/CommonButton";
-import bg01 from "@/assets/images/home/hero-banner.webp";
 import ShutterText from "@/components/animations/ShutterText";
 import Reviews from "./Reviews";
 import EventExtraSection from "./EventExtraSection";
+import { useGetEventDetailsQuery } from "@/redux/features/eventApis";
+import { Loader } from "lucide-react";
+import { IEvent } from "@/types/eventTypes";
+import { useParams, useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const EventDetails = () => {
-  // Example event data (you can fetch this dynamically later)
-  const event = {
-    title: "Hiking Adventure",
-    category: "Outdoor",
-    status: "Active",
-    price: 99,
-    description:
-      "Join us for an unforgettable hiking adventure in the mountains! Experience breathtaking views, expert guides, and create memories that will last a lifetime. Suitable for all skill levels. Bring your friends or make new ones along the way.",
-    image: bg01,
-  };
+  const router = useRouter();
+  const params = useParams();
+  const id = params.eventId;
+
+  const { data, isLoading } = useGetEventDetailsQuery(id as string);
+
+  if (isLoading) return <Loader />;
+
+  const event = (data?.data as IEvent) || null;
+
+  if (!isLoading && !event) {
+    router.push("/");
+    toast.error("Event not found!");
+    return <></>;
+  }
 
   return (
     <div className="w-full min-h-screen bg-primary text-secondary1">
       {/* Hero Image */}
       <div className="relative w-full h-[450px]">
         <Image
-          src={event.image}
-          alt={event.title}
+          src={event.banner}
+          alt={event.eventName}
           fill
           className="object-cover w-full h-full"
         />
@@ -39,8 +48,8 @@ const EventDetails = () => {
         {/* Left: Image */}
         <div className="md:w-1/2 h-[400px] md:h-[500px] rounded-xl overflow-hidden shadow-lg">
           <Image
-            src={event.image}
-            alt={event.title}
+            src={event.banner}
+            alt={event.eventName}
             width={600}
             height={400}
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
@@ -53,7 +62,7 @@ const EventDetails = () => {
           <h1
             className={`${LocalFonts.anton.className} text-3xl md:text-4xl xl:text-6xl leading-tight text-secondary1`}
           >
-            <ShutterText text={event.title} />
+            <ShutterText text={event.eventName} />
           </h1>
 
           {/* Tags & Status */}
@@ -63,10 +72,16 @@ const EventDetails = () => {
             </span>
 
             <span
-              className={`border text-sm font-semibold px-4 py-1 rounded-full ${
-                event.status === "Active"
-                  ? "border-green-500 text-green-500"
-                  : "border-red-500 text-red-500"
+              className={`px-4 py-1 rounded-md text-[10px] tracking-widest font-semibold uppercase ${
+                event.status === "UPCOMING"
+                  ? "bg-green-500/15 text-green-400"
+                  : event.status === "ONGOING"
+                  ? "bg-blue-500/15 text-blue-400"
+                  : event.status === "COMPLETED"
+                  ? "bg-yellow-500/15 text-yellow-500"
+                  : event.status === "CANCELED"
+                  ? "bg-red-500/15 text-red-500"
+                  : ""
               }`}
             >
               {event.status}
@@ -81,7 +96,7 @@ const EventDetails = () => {
             <p
               className={`${LocalFonts.anton.className} text-5xl md:text-6xl text-secondary1`}
             >
-              ${event.price}
+              ${event.entryFee}
             </p>
           </div>
 

@@ -1,155 +1,48 @@
+"use client";
 import EventCard from "@/components/common/cards/EventCard";
 import EventHeaderSection from "./EventHeaderSection";
+import Loader from "@/components/common/Loader";
+import { IEvent } from "@/types/eventTypes";
+import { useGetAllEventsQuery } from "@/redux/features/eventApis";
+import { useSearchParams } from "next/navigation";
 
 const EventsMain = () => {
-  const events = [
-    {
-      id: 1,
-      title: "Rock Fiesta Night",
-      category: "Concert",
-      status: "Active",
-      price: 49,
-      image:
-        "https://images.unsplash.com/photo-1504805572947-34fad45aed93?auto=format&fit=crop&w=800&q=60",
-    },
-    {
-      id: 2,
-      title: "Creative Art Bootcamp",
-      category: "Workshop",
-      status: "Closed",
-      price: 25,
-      image:
-        "https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=800&q=60",
-    },
-    {
-      id: 3,
-      title: "Tech Community Hangout",
-      category: "Meetup",
-      status: "Active",
-      price: 10,
-      image:
-        "https://images.unsplash.com/photo-1509223197845-458d87318791?auto=format&fit=crop&w=800&q=60",
-    },
-    {
-      id: 1,
-      title: "Rock Fiesta Night",
-      category: "Concert",
-      status: "Active",
-      price: 49,
-      image:
-        "https://images.unsplash.com/photo-1504805572947-34fad45aed93?auto=format&fit=crop&w=800&q=60",
-    },
-    {
-      id: 2,
-      title: "Creative Art Bootcamp",
-      category: "Workshop",
-      status: "Closed",
-      price: 25,
-      image:
-        "https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=800&q=60",
-    },
-    {
-      id: 3,
-      title: "Tech Community Hangout",
-      category: "Meetup",
-      status: "Active",
-      price: 10,
-      image:
-        "https://images.unsplash.com/photo-1509223197845-458d87318791?auto=format&fit=crop&w=800&q=60",
-    },
-    {
-      id: 1,
-      title: "Rock Fiesta Night",
-      category: "Concert",
-      status: "Active",
-      price: 49,
-      image:
-        "https://images.unsplash.com/photo-1504805572947-34fad45aed93?auto=format&fit=crop&w=800&q=60",
-    },
-    {
-      id: 2,
-      title: "Creative Art Bootcamp",
-      category: "Workshop",
-      status: "Closed",
-      price: 25,
-      image:
-        "https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=800&q=60",
-    },
-    {
-      id: 3,
-      title: "Tech Community Hangout",
-      category: "Meetup",
-      status: "Active",
-      price: 10,
-      image:
-        "https://images.unsplash.com/photo-1509223197845-458d87318791?auto=format&fit=crop&w=800&q=60",
-    },
-    {
-      id: 1,
-      title: "Rock Fiesta Night",
-      category: "Concert",
-      status: "Active",
-      price: 49,
-      image:
-        "https://images.unsplash.com/photo-1504805572947-34fad45aed93?auto=format&fit=crop&w=800&q=60",
-    },
-    {
-      id: 2,
-      title: "Creative Art Bootcamp",
-      category: "Workshop",
-      status: "Closed",
-      price: 25,
-      image:
-        "https://images.unsplash.com/photo-1529390079861-591de354faf5?auto=format&fit=crop&w=800&q=60",
-    },
-    {
-      id: 3,
-      title: "Tech Community Hangout",
-      category: "Meetup",
-      status: "Active",
-      price: 10,
-      image:
-        "https://images.unsplash.com/photo-1509223197845-458d87318791?auto=format&fit=crop&w=800&q=60",
-    },
-  ];
+  const searchParams = useSearchParams();
+  const searchTerm = searchParams.get("searchTerm") || "";
+  const category = searchParams.get("category") || "";
+  const status = searchParams.get("status") || "";
+  const hostId = searchParams.get("hostId") || "";
+
+  const { data, isLoading } = useGetAllEventsQuery({
+    searchTerm,
+    category,
+    status,
+    hostId,
+  });
+
+  if (isLoading) return <Loader />;
+
+  const events = (data?.data?.data as IEvent[]) || [];
+
+  if (!isLoading && events.length === 0) {
+    return (
+      <div className="px-4 2xl:max-w-[1600px] h-[500px] mx-auto my-20">
+        <EventHeaderSection />
+
+        <div className="flex flex-col items-center justify-center h-full mt-24 text-secondary1/60">
+          <p className="text-xl font-semibold tracking-wider">
+            No Events Found
+          </p>
+          <p className="text-sm mt-2">
+            Try adjusting your filters or search terms.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="px-4 2xl:max-w-[1600px] mx-auto my-20">
-      {/* <div>
-        <div className="flex flex-col gap-4 py-10">
-          <h2
-            className={`text-3xl md:text-4xl lg:text-5xl text-coal ${LocalFonts.anton.className} text-secondary1`}
-          >
-            {lines.map((line, i) => (
-              <ShutterText key={i} text={line} delay={i * 0.3} />
-            ))}
-          </h2>
-        </div>
-
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center gap-3">
-            {categories.map((category, index) => (
-              <button
-                key={index}
-                className={`${
-                  category.title === "All"
-                    ? "text-secondary1 border border-secondary2"
-                    : "text-secondary1 border"
-                } hover:text-secondary hover:border-secondary text-sm font-semibold capitalize rounded-[200px] py-2 px-6 transition duration-300`}
-              >
-                {category.title}
-              </button>
-            ))}
-          </div>
-          <div>
-            <input
-              type="text"
-              placeholder="Search events..."
-              className="border border-gray-300 rounded-full py-2 px-4 text-sm focus:outline-none focus:border-secondary"
-            />
-          </div>
-        </div>
-      </div> */}
       <EventHeaderSection />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-16">

@@ -1,12 +1,76 @@
+"use client";
+
+import { useState } from "react";
 import CommonButton from "@/components/common/CommonButton";
+import { IEvent, eventCategoryEnums } from "@/types/eventTypes";
 import { RxCross2 } from "react-icons/rx";
+import { useUpdateEventMutation } from "@/redux/features/eventApis";
+import { postApiHandler } from "@/lib/postApiHandler";
+import EventCategorySelect from "./EventCategorySelect";
+import DetailedInfoInputs from "./DetailedInfoInputs";
+import BannerUploader from "./BannerUploader";
+
+const SESSION_KEY = "updateEventBanner";
 
 const UpdateEvent = ({
   setUpdateEvent,
+  event,
 }: {
   setUpdateEvent: (value: boolean) => void;
+  event: IEvent | null;
 }) => {
-  const handleUpdateEvents = () => {};
+  const [bannerUrl, setBannerUrl] = useState<string | null>(
+    event?.banner || null
+  );
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [category, setCategory] = useState<eventCategoryEnums | "">(
+    event?.category || ""
+  );
+  const [detailedInfos, setDetailedInfos] = useState<string[]>([]);
+
+  const [updateEvent] = useUpdateEventMutation();
+
+  const formatToDateTimeLocal = (d?: string | Date | null) => {
+    if (!d) return "";
+    const date = new Date(d);
+    if (isNaN(date.getTime())) return "";
+    // convert to local date-time in format YYYY-MM-DDTHH:MM
+    const tzOffset = date.getTimezoneOffset();
+    const local = new Date(date.getTime() - tzOffset * 60000);
+    return local.toISOString().slice(0, 16);
+  };
+
+  const handleUpdateEvents = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!event) return;
+
+    const form = new FormData(e.currentTarget);
+
+    const payload = {
+      eventName: form.get("eventName") as string,
+      description: form.get("description") as string,
+      eventDate: form.get("eventDate") as string,
+      category: category as string,
+      status: event.status || "UPCOMING",
+      entryFee: Number(form.get("entryFee")) || 0,
+      detailedInformations: detailedInfos,
+      location: form.get("location") as string,
+      banner: bannerUrl || sessionStorage.getItem(SESSION_KEY) || "",
+      minParticipants: Number(form.get("minParticipants")) || 0,
+      maxParticipants: Number(form.get("maxParticipants")) || 0,
+    };
+
+    await postApiHandler({
+      mutateFn: updateEvent,
+      options: { id: event._id, data: payload },
+      setIsLoading: setIsSubmitting,
+      optionalTasksFn: () => {
+        sessionStorage.removeItem(SESSION_KEY);
+        setBannerUrl(null);
+        setUpdateEvent(false);
+      },
+    });
+  };
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white rounded-lg p-6 w-[90%] max-w-3xl max-h-[90vh] overflow-y-auto shadow-lg">
@@ -24,19 +88,7 @@ const UpdateEvent = ({
         <form className="space-y-4" onSubmit={handleUpdateEvents}>
           <div className="w-full flex flex-col gap-6">
             {/** Banner */}
-            <div className="flex flex-col gap-1">
-              <label htmlFor="banner" className="font-medium text-sm">
-                Banner
-              </label>
-              <input
-                id="banner"
-                type="file"
-                name="banner"
-                accept="image/*"
-                placeholder="Upload Banner"
-                className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
-              />
-            </div>
+            <BannerUploader bannerUrl={bannerUrl} setBannerUrl={setBannerUrl} />
 
             {/** Event Name */}
             <div className="flex flex-col gap-1">
@@ -48,6 +100,7 @@ const UpdateEvent = ({
                 type="text"
                 name="eventName"
                 placeholder="Event Name"
+                defaultValue={event?.eventName || ""}
                 className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
               />
             </div>
@@ -62,37 +115,16 @@ const UpdateEvent = ({
                 type="datetime-local"
                 name="eventDate"
                 placeholder="Events Date"
-                className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
-              />
-            </div>
-
-            {/** Events Time */}
-            <div className="flex flex-col gap-1">
-              <label htmlFor="eventTime" className="font-medium text-sm">
-                Events Time
-              </label>
-              <input
-                id="eventTime"
-                type="datetime-local"
-                name="eventTime"
-                placeholder="Events Time"
+                defaultValue={formatToDateTimeLocal(event?.eventDate)}
                 className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
               />
             </div>
 
             {/** Category */}
-            <div className="flex flex-col gap-1">
-              <label htmlFor="category" className="font-medium text-sm">
-                Category
-              </label>
-              <input
-                id="category"
-                type="text"
-                name="category"
-                placeholder="Category"
-                className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
-              />
-            </div>
+            <EventCategorySelect
+              setCategory={setCategory}
+              category={category}
+            />
 
             {/** Entry Fee */}
             <div className="flex flex-col gap-1">
@@ -104,23 +136,7 @@ const UpdateEvent = ({
                 type="number"
                 name="entryFee"
                 placeholder="Entry Fee"
-                className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
-              />
-            </div>
-
-            {/** Total Participants */}
-            <div className="flex flex-col gap-1">
-              <label
-                htmlFor="totalParticipants"
-                className="font-medium text-sm"
-              >
-                Total Participants
-              </label>
-              <input
-                id="totalParticipants"
-                type="number"
-                name="totalParticipants"
-                placeholder="Total Participants"
+                defaultValue={event?.entryFee ?? ""}
                 className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
               />
             </div>
@@ -135,6 +151,7 @@ const UpdateEvent = ({
                 type="number"
                 name="minParticipants"
                 placeholder="Min Participants"
+                defaultValue={event?.minParticipants ?? ""}
                 className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
               />
             </div>
@@ -149,6 +166,7 @@ const UpdateEvent = ({
                 type="number"
                 name="maxParticipants"
                 placeholder="Max Participants"
+                defaultValue={event?.maxParticipants ?? ""}
                 className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
               />
             </div>
@@ -163,6 +181,23 @@ const UpdateEvent = ({
                 type="text"
                 name="location"
                 placeholder="Location"
+                defaultValue={event?.location || ""}
+                className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor="detailInformation"
+                className="font-medium text-sm"
+              >
+                Description
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                defaultValue={event?.description || ""}
+                placeholder="Detail Information"
+                rows={4}
                 className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
               />
             </div>
@@ -175,16 +210,15 @@ const UpdateEvent = ({
               >
                 Detail Information
               </label>
-              <textarea
-                id="detailInformation"
-                name="detailInformation"
-                placeholder="Detail Information"
-                rows={4}
-                className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
+              <DetailedInfoInputs
+                value={detailedInfos}
+                onChange={setDetailedInfos}
               />
             </div>
             <div>
-              <CommonButton title="Add Event" />
+              <CommonButton
+                title={isSubmitting ? "Updating..." : "Update Event"}
+              />
             </div>
           </div>
         </form>

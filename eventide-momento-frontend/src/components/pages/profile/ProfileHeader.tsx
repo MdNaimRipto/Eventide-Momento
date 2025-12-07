@@ -41,11 +41,8 @@ export default function ProfileHeader() {
           }
         );
         const response: IApiSuccessResponse = await fetchResponse.json();
-
-        // // 1️⃣ Upload image
         const imageUrl = response.data.url;
 
-        // 2️⃣ Update user profile
         await postApiHandler({
           mutateFn: updateUser,
           options: { data: { profileImage: imageUrl } },
@@ -58,6 +55,8 @@ export default function ProfileHeader() {
       }
     }
   };
+
+  console.log(user?.profileImage);
 
   const stats = [
     { label: "Followers", value: 2985 },
