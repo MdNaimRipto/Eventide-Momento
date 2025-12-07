@@ -5,7 +5,6 @@ import CommonButton from "@/components/common/CommonButton";
 import { LocalFonts } from "@/components/common/fonts";
 import ShutterText from "@/components/animations/ShutterText";
 import { useUserContext } from "@/contexts/AuthContext";
-import { useUploadImageMutation } from "@/redux/features/imageApis";
 import { useUpdateUserMutation } from "@/redux/features/userApis";
 import { useState } from "react";
 import { postApiHandler } from "@/lib/postApiHandler";
@@ -13,10 +12,11 @@ import { Input } from "@/components/ui/input";
 import { FaEdit } from "react-icons/fa";
 import { IApiSuccessResponse } from "@/types/apiResponseTypes";
 import { Spinner } from "@/components/ui/spinner";
+import Link from "next/link";
+import { apiConfig } from "@/configs/apiConfig";
 
 export default function ProfileHeader() {
   const { user } = useUserContext();
-  const [uploadImage] = useUploadImageMutation();
   const [updateUser] = useUpdateUserMutation();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,7 +33,7 @@ export default function ProfileHeader() {
       try {
         setIsLoading(true);
         const fetchResponse = await fetch(
-          "http://localhost:5000/v1.0.0/apis/images/upload",
+          apiConfig.BASE_URL + apiConfig.IMAGE.UPLOAD,
           {
             method: "POST",
             body: formData,
@@ -113,9 +113,12 @@ export default function ProfileHeader() {
             <ShutterText text={user?.userName as string} />
           </h5>
 
-          <div className="mt-2 flex gap-3 scale-75 md:-ml-6">
-            <CommonButton title={isLoading ? "Updating..." : "Edit Profile"} />
-          </div>
+          <Link
+            href={"/user/profile?tab=settings"}
+            className="mt-2 flex gap-3 scale-75 md:-ml-6"
+          >
+            <CommonButton title={"Edit Profile"} />
+          </Link>
         </div>
 
         {/* Stats */}

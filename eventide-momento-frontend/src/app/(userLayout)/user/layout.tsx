@@ -14,6 +14,8 @@ const PrivateLayout = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (!user || user === undefined) {
       router.push("/auth/login");
+    } else if (user && user.IsFirstTimeUpdated === false) {
+      router.push("/auth/complete-profile");
     } else {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsLoading(false);

@@ -17,4 +17,5 @@ export interface IUser {
   ratingAvg: number;
   createdAt: Date;
   updatedAt: Date;
+  IsFirstTimeUpdated: boolean;
 }
