@@ -34,7 +34,7 @@ const LoginForm = () => {
       setIsLoading,
       optionalTasksFn: () => {
         dispatch(userApis.util.resetApiState());
-        router.push("/user/profile"); // redirect after successful login
+        router.push("/user/profile");
       },
     });
   };

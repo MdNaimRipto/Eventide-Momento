@@ -1,4 +1,4 @@
-import LoginMain from "@/components/pages/login/LoginMain";
+import LoginMain from "@/components/pages/auth/login/LoginMain";
 
 const LoginPage = () => {
   return <LoginMain />;

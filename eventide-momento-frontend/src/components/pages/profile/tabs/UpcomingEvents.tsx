@@ -42,7 +42,12 @@ const UpcomingEvents = () => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-10">
       {events.map((event, i) => (
-        <EventCard event={event} key={i} />
+        <div key={i} className="relative">
+          <span className="px-4 py-1 bg-secondary2/60 backdrop-blur-3xl animate-pulse text-secondary1 text-[10px] tracking-widest font-semibold uppercase absolute top-4 right-4 z-10">
+            Upcoming
+          </span>
+          <EventCard event={event} />
+        </div>
       ))}
     </div>
   );

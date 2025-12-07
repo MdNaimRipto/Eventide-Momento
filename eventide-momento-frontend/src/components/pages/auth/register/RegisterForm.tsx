@@ -3,13 +3,16 @@
 import { IoHomeSharp } from "react-icons/io5";
 import Link from "next/link";
 import { LocalFonts } from "@/components/common/fonts";
-import { useRegisterMutation } from "@/redux/features/userApis";
+import { userApis, useRegisterMutation } from "@/redux/features/userApis";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { postApiHandler } from "@/lib/postApiHandler";
+import { useAppDispatch } from "@/redux/hook";
 
 const RegisterForm = () => {
   const [register] = useRegisterMutation();
+  const dispatch = useAppDispatch();
+
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -30,7 +33,8 @@ const RegisterForm = () => {
       options,
       setIsLoading,
       optionalTasksFn: () => {
-        router.push("/auth/option"); // redirect after successful register
+        dispatch(userApis.util.resetApiState());
+        router.push("/auth/complete-profile");
       },
     });
   };

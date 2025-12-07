@@ -1,4 +1,6 @@
+import CommonButton from "@/components/common/CommonButton";
 import { useUserContext } from "@/contexts/AuthContext";
+import Link from "next/link";
 
 const About = () => {
   const { user } = useUserContext();
@@ -24,7 +26,7 @@ const About = () => {
       )}
 
       {/* Contact & Location */}
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-secondary1 2xl:max-w-[1000px]">
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-secondary1 2xl:max-w-[1000px] mb-6">
         <div>
           <h3 className="text-sm font-medium text-secondary1/70">Email</h3>
           <p className="text-secondary1">{user?.email}</p>
@@ -65,6 +67,9 @@ const About = () => {
           )}
         </div>
       </div>
+      <Link href={"/user/profile?tab=settings"}>
+        <CommonButton title={"Edit Now"} />
+      </Link>
     </div>
   );
 };
