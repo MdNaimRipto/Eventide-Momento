@@ -12,9 +12,6 @@ const AddNewEvent = ({
       <div className="bg-white rounded-lg p-6 w-[90%] max-w-3xl max-h-[90vh] overflow-y-auto shadow-lg">
         <div className=" flex justify-between items-center mb-6 border-b border-gray-200">
           <h2 className="text-3xl font-semibold mb-2">Add New Event</h2>
-          <p className="text-gray-500 font-light tracking-wide leading-5 text-sm pb-3 pt-2 md:max-w-[550px]">
-            Fill in all the details to create a new event.
-          </p>
           <div
             onClick={() => setAddNewEvent(false)}
             className="text-red-500 text-2xl font-bold cursor-pointer"
@@ -25,7 +22,7 @@ const AddNewEvent = ({
 
         {/* Form */}
         <form className="space-y-4" onSubmit={handleAddEvents}>
-          <div className="w-full md:w-4/5 lg:w-3/5 xl:w-1/2 flex flex-col gap-6">
+          <div className="w-full flex flex-col gap-6">
             {/** Banner */}
             <div className="flex flex-col gap-1">
               <label htmlFor="banner" className="font-medium text-sm">
