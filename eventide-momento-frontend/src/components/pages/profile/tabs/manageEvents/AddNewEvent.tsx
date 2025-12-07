@@ -10,10 +10,11 @@ const AddNewEvent = ({
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white rounded-lg p-6 w-[90%] max-w-3xl max-h-[90vh] overflow-y-auto shadow-lg">
-        <div className=" flex justify-between items-center">
-          <h2 className="capitalize text-xl text-darkGreen font-semibold">
-            Add new event
-          </h2>
+        <div className=" flex justify-between items-center mb-6 border-b border-gray-200">
+          <h2 className="text-3xl font-semibold mb-2">Add New Event</h2>
+          <p className="text-gray-500 font-light tracking-wide leading-5 text-sm pb-3 pt-2 md:max-w-[550px]">
+            Fill in all the details to create a new event.
+          </p>
           <div
             onClick={() => setAddNewEvent(false)}
             className="text-red-500 text-2xl font-bold cursor-pointer"
@@ -24,13 +25,6 @@ const AddNewEvent = ({
 
         {/* Form */}
         <form className="space-y-4" onSubmit={handleAddEvents}>
-          <div className="mb-6 border-b border-gray-200">
-            <h2 className="text-3xl font-semibold mb-2">Add New Event</h2>
-            <p className="text-gray-500 font-light tracking-wide leading-5 text-sm pb-3 pt-2 md:max-w-[550px]">
-              Fill in all the details to create a new event.
-            </p>
-          </div>
-
           <div className="w-full md:w-4/5 lg:w-3/5 xl:w-1/2 flex flex-col gap-6">
             {/** Banner */}
             <div className="flex flex-col gap-1">
@@ -71,6 +65,20 @@ const AddNewEvent = ({
                 type="datetime-local"
                 name="eventDate"
                 placeholder="Events Date"
+                className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
+              />
+            </div>
+
+            {/** Events Time */}
+            <div className="flex flex-col gap-1">
+              <label htmlFor="eventTime" className="font-medium text-sm">
+                Events Time
+              </label>
+              <input
+                id="eventTime"
+                type="datetime-local"
+                name="eventTime"
+                placeholder="Events Time"
                 className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
               />
             </div>
@@ -178,24 +186,6 @@ const AddNewEvent = ({
                 className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
               />
             </div>
-
-            {/** Status */}
-            <div className="flex flex-col gap-1">
-              <label htmlFor="status" className="font-medium text-sm">
-                Status
-              </label>
-              <select
-                id="status"
-                name="status"
-                className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
-              >
-                <option value="">Select Status</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-                <option value="cancelled">Cancelled</option>
-              </select>
-            </div>
-
             <div>
               <CommonButton title="Add Event" />
             </div>
