@@ -2,15 +2,7 @@ import Image from "next/image";
 import { LocalFonts } from "../fonts";
 import Link from "next/link";
 import CommonButton from "../CommonButton";
-
-interface IEvent {
-  id: number;
-  title: string;
-  category: string;
-  status: string;
-  price: number;
-  image: string;
-}
+import { IEvent } from "@/types/eventTypes";
 
 const EventCard = ({ event }: { event: IEvent }) => {
   return (
@@ -18,7 +10,7 @@ const EventCard = ({ event }: { event: IEvent }) => {
       {/* Image Section */}
       <div className="w-full h-[250px] relative overflow-hidden">
         <Image
-          src={event.image}
+          src={event.banner}
           alt="events-image"
           width={400}
           height={400}
@@ -32,7 +24,7 @@ const EventCard = ({ event }: { event: IEvent }) => {
         <h6
           className={`${LocalFonts.anton.className} text-xl xl:text-2xl text-secondary1 leading-tight`}
         >
-          {event.title}
+          {event.eventName}
         </h6>
 
         {/* Category + Status */}
@@ -43,10 +35,17 @@ const EventCard = ({ event }: { event: IEvent }) => {
 
           <span
             className={`px-4 py-1 rounded-md text-[10px] tracking-widest font-semibold uppercase ${
-              event.status === "Active"
-                ? "bg-green-500/15 text-green-500"
-                : "bg-red-500/15 text-red-500"
-            }`}
+              event.status === "UPCOMING"
+                ? "bg-green-500/15 text-green-400"
+                : event.status === "ONGOING"
+                ? "bg-blue-500/15 text-blue-400"
+                : event.status === "COMPLETED"
+                ? "bg-yellow-500/15 text-yellow-500"
+                : event.status === "CANCELED"
+                ? "bg-red-500/15 text-red-500"
+                : ""
+            }
+  `}
           >
             {event.status}
           </span>
@@ -61,13 +60,13 @@ const EventCard = ({ event }: { event: IEvent }) => {
             <p
               className={`${LocalFonts.anton.className} text-secondary1 text-4xl leading-none`}
             >
-              ${event.price}
+              ${event.entryFee}
             </p>
           </div>
 
           {/* Button */}
           <Link
-            href={`/events/${event.id}`}
+            href={`/events/${event._id}`}
             className="scale-90 md:scale-100 -mr-4 md:-mr-0"
           >
             <CommonButton title="View Details" />

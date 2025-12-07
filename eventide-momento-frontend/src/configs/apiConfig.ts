@@ -2,21 +2,21 @@ export const apiConfig = {
   // BASE_URL: "https://better-plate-backend.vercel.app/v1.0.0/apis",
   BASE_URL: "http://localhost:5000/v1.0.0/apis",
   USER: {
-    REGISTER: "/users/register",
-    LOGIN: "/users/login",
-    GET: "/users/me",
-    LOGOUT: "/users/logout",
-    UPDATE_USER: "/users/updateUser",
-    UPDATE_PASSWORD: "/users/updatePassword",
-    GET_ALL: "/users/getAllUsers",
+    REGISTER: "/users/register", // Done
+    LOGIN: "/users/login", // Done
+    GET: "/users/me", // Done
+    LOGOUT: "/users/logout", // Done
+    UPDATE_USER: "/users/updateUser", // Done
+    UPDATE_PASSWORD: "/users/updatePassword", // Done
+    GET_ALL: "/users/getAllUsers", // Done
   },
   EVENTS: {
-    CREATE: "/events",
-    GET_ALL: "/events",
+    CREATE: "/events", // Done
+    GET_ALL: "/events", // Done
     DETAILS: "/events",
-    GET_HOST_EVENTS: "/events/host",
-    UPDATE: "/events",
-    DELETE: "/events",
+    GET_HOST_EVENTS: "/events/host", // Done
+    UPDATE: "/events", // Done
+    DELETE: "/events", // Done
   },
   ORDER: {
     ORDER: "/payment/createPaymentLink",
@@ -28,7 +28,7 @@ export const apiConfig = {
     GET_HOST_REVIEWS: "/reviews/host",
   },
   IMAGE: {
-    UPLOAD: "/images/upload",
-    DELETE: "/images/delete",
+    UPLOAD: "/images/upload", // Done
+    DELETE: "/images/delete", // Done
   },
 };

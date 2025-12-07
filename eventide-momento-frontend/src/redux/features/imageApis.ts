@@ -4,16 +4,17 @@ import { apiSlice } from "../apis/apiSlice";
 export const imageApis = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     //
-    // * Upload Image
+    // Delete Image
     //
-    uploadImage: builder.mutation<{ url: string }, FormData>({
-      query: (formData) => ({
-        url: apiConfig.IMAGE.UPLOAD,
+    deleteImage: builder.mutation({
+      query: ({ data: res }: { data: { publicId: string } }) => ({
+        url: `${apiConfig.IMAGE.DELETE}`,
         method: "POST",
-        body: formData,
+        data: { publicId: res.publicId },
       }),
+      invalidatesTags: [],
     }),
   }),
 });
 
-export const { useUploadImageMutation } = imageApis;
+export const { useDeleteImageMutation } = imageApis;

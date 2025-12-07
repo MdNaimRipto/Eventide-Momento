@@ -1,12 +1,60 @@
+"use client";
+import { useState } from "react";
 import CommonButton from "@/components/common/CommonButton";
 import { RxCross2 } from "react-icons/rx";
+import { useCreateEventMutation } from "@/redux/features/eventApis";
+import { postApiHandler } from "@/lib/postApiHandler";
+import EventCategorySelect from "./EventCategorySelect";
+import { eventCategoryEnums } from "@/types/eventTypes";
+import DetailedInfoInputs from "./DetailedInfoInputs";
+import BannerUploader from "./BannerUploader";
+
+const SESSION_KEY = "newEventBanner";
 
 const AddNewEvent = ({
   setAddNewEvent,
 }: {
   setAddNewEvent: (value: boolean) => void;
 }) => {
-  const handleAddEvents = () => {};
+  const [bannerUrl, setBannerUrl] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [category, setCategory] = useState<eventCategoryEnums | "">("");
+  const [detailedInfos, setDetailedInfos] = useState<string[]>([""]);
+
+  const [createEvent] = useCreateEventMutation();
+
+  const handleAddEvents = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = new FormData(e.currentTarget);
+
+    const payload = {
+      eventName: form.get("eventName") as string,
+      description: form.get("description") as string,
+      eventDate: form.get("eventDate") as string,
+      category: category as string,
+      status: "UPCOMING",
+      entryFee: Number(form.get("entryFee")),
+      detailedInformations: detailedInfos,
+      location: form.get("location") as string,
+      banner: sessionStorage.getItem(SESSION_KEY) || bannerUrl,
+      minParticipants: Number(form.get("minParticipants")),
+      maxParticipants: Number(form.get("maxParticipants")),
+    };
+
+    await postApiHandler({
+      mutateFn: createEvent,
+      options: { data: payload },
+      setIsLoading: setIsSubmitting,
+      optionalTasksFn: () => {
+        sessionStorage.removeItem(SESSION_KEY);
+        setBannerUrl(null);
+        setAddNewEvent(false);
+      },
+    });
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="bg-white rounded-lg p-6 w-[90%] max-w-3xl max-h-[90vh] overflow-y-auto shadow-lg">
@@ -24,19 +72,7 @@ const AddNewEvent = ({
         <form className="space-y-4" onSubmit={handleAddEvents}>
           <div className="w-full flex flex-col gap-6">
             {/** Banner */}
-            <div className="flex flex-col gap-1">
-              <label htmlFor="banner" className="font-medium text-sm">
-                Banner
-              </label>
-              <input
-                id="banner"
-                type="file"
-                name="banner"
-                accept="image/*"
-                placeholder="Upload Banner"
-                className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
-              />
-            </div>
+            <BannerUploader bannerUrl={bannerUrl} setBannerUrl={setBannerUrl} />
 
             {/** Event Name */}
             <div className="flex flex-col gap-1">
@@ -44,6 +80,7 @@ const AddNewEvent = ({
                 Event Name
               </label>
               <input
+                required
                 id="eventName"
                 type="text"
                 name="eventName"
@@ -58,6 +95,7 @@ const AddNewEvent = ({
                 Events Date
               </label>
               <input
+                required
                 id="eventDate"
                 type="datetime-local"
                 name="eventDate"
@@ -66,33 +104,11 @@ const AddNewEvent = ({
               />
             </div>
 
-            {/** Events Time */}
-            <div className="flex flex-col gap-1">
-              <label htmlFor="eventTime" className="font-medium text-sm">
-                Events Time
-              </label>
-              <input
-                id="eventTime"
-                type="datetime-local"
-                name="eventTime"
-                placeholder="Events Time"
-                className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
-              />
-            </div>
-
             {/** Category */}
-            <div className="flex flex-col gap-1">
-              <label htmlFor="category" className="font-medium text-sm">
-                Category
-              </label>
-              <input
-                id="category"
-                type="text"
-                name="category"
-                placeholder="Category"
-                className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
-              />
-            </div>
+            <EventCategorySelect
+              setCategory={setCategory}
+              category={category}
+            />
 
             {/** Entry Fee */}
             <div className="flex flex-col gap-1">
@@ -100,27 +116,11 @@ const AddNewEvent = ({
                 Entry Fee
               </label>
               <input
+                required
                 id="entryFee"
                 type="number"
                 name="entryFee"
                 placeholder="Entry Fee"
-                className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
-              />
-            </div>
-
-            {/** Total Participants */}
-            <div className="flex flex-col gap-1">
-              <label
-                htmlFor="totalParticipants"
-                className="font-medium text-sm"
-              >
-                Total Participants
-              </label>
-              <input
-                id="totalParticipants"
-                type="number"
-                name="totalParticipants"
-                placeholder="Total Participants"
                 className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
               />
             </div>
@@ -131,6 +131,7 @@ const AddNewEvent = ({
                 Min Participants
               </label>
               <input
+                required
                 id="minParticipants"
                 type="number"
                 name="minParticipants"
@@ -145,6 +146,7 @@ const AddNewEvent = ({
                 Max Participants
               </label>
               <input
+                required
                 id="maxParticipants"
                 type="number"
                 name="maxParticipants"
@@ -159,6 +161,7 @@ const AddNewEvent = ({
                 Location
               </label>
               <input
+                required
                 id="location"
                 type="text"
                 name="location"
@@ -173,18 +176,35 @@ const AddNewEvent = ({
                 htmlFor="detailInformation"
                 className="font-medium text-sm"
               >
-                Detail Information
+                Description
               </label>
               <textarea
-                id="detailInformation"
-                name="detailInformation"
+                id="description"
+                name="description"
+                required
                 placeholder="Detail Information"
                 rows={4}
                 className="w-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary1"
               />
             </div>
+
+            {/** Detail Information */}
+            <div className="flex flex-col gap-1">
+              <label
+                htmlFor="detailInformation"
+                className="font-medium text-sm"
+              >
+                Detail Information
+              </label>
+              <DetailedInfoInputs
+                value={detailedInfos}
+                onChange={setDetailedInfos}
+              />
+            </div>
             <div>
-              <CommonButton title="Add Event" />
+              <CommonButton
+                title={isSubmitting ? "Adding Event" : "Add Event"}
+              />
             </div>
           </div>
         </form>

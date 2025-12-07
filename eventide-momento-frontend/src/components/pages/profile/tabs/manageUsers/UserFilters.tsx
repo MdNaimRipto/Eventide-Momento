@@ -25,19 +25,21 @@ const UserFilters = () => {
 
   // Update URL when searchTerm or role changes
   useEffect(() => {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(window.location.search); // <-- keep existing params
 
     if (searchTerm) params.set("searchTerm", searchTerm);
-    if (role) params.set("role", role);
+    else params.delete("searchTerm");
 
-    // Only replace if URL is different to avoid unnecessary renders
+    if (role) params.set("role", role);
+    else params.delete("role");
+
     const newUrl = `${pathname}${
       params.toString() ? `?${params.toString()}` : ""
     }`;
     if (newUrl !== window.location.pathname + window.location.search) {
       router.replace(newUrl, { scroll: false });
     }
-  }, [searchTerm, role, router, pathname]); // ✅ Removed searchParams from deps
+  }, [searchTerm, role, router, pathname]);
 
   const resetFilters = () => {
     setSearchTerm("");
@@ -50,10 +52,10 @@ const UserFilters = () => {
         placeholder="Search..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-full md:col-span-2"
+        className="w-full md:col-span-2 rounded-none"
       />
       <Select value={role} onValueChange={(value) => setRole(value)}>
-        <SelectTrigger className="w-full">
+        <SelectTrigger className="w-full rounded-none">
           <SelectValue placeholder="Role" />
         </SelectTrigger>
         <SelectContent>
@@ -62,8 +64,8 @@ const UserFilters = () => {
         </SelectContent>
       </Select>
       <Button
-        variant="outline"
-        className="w-full md:w-auto"
+        variant="destructive"
+        className="w-full md:w-auto bg-red-400 rounded-none"
         onClick={resetFilters}
       >
         Reset Filters

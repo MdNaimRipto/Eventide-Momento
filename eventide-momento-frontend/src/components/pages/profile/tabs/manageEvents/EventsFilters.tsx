@@ -7,75 +7,91 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 
 const EventsFilters = () => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const [searchTerm, setSearchTerm] = useState(
+    searchParams.get("searchTerm") || ""
+  );
+  const [category, setCategory] = useState(searchParams.get("category") || "");
+  const [status, setStatus] = useState(searchParams.get("status") || "");
+  const [hostId, setHostId] = useState(searchParams.get("hostId") || "");
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+
+    if (searchTerm) params.set("searchTerm", searchTerm);
+    else params.delete("searchTerm");
+
+    if (category) params.set("category", category);
+    else params.delete("category");
+
+    if (status) params.set("status", status);
+    else params.delete("status");
+
+    if (hostId) params.set("hostId", hostId);
+    else params.delete("hostId");
+
+    const newUrl = `${pathname}${
+      params.toString() ? `?${params.toString()}` : ""
+    }`;
+    if (newUrl !== window.location.pathname + window.location.search) {
+      router.replace(newUrl, { scroll: false });
+    }
+  }, [searchTerm, category, status, hostId, router, pathname]);
+
+  const resetFilters = () => {
+    setSearchTerm("");
+    setCategory("");
+    setStatus("");
+    setHostId("");
+  };
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-7 gap-4 mb-6">
+    <div className="grid grid-cols-1 md:grid-cols-5 md:w-4/5 gap-4 mb-6">
       <Input
         placeholder="Search..."
-        // value={filters.searchTerm || ""}
-        // onChange={(e) => handleFilterChange("searchTerm", e.target.value)}
-        className="w-full md:col-span-2"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="w-full md:col-span-2 rounded-none"
       />
-      <Select
-      // onValueChange={(value) => handleFilterChange("role", value)}
-      // value={filters.role || ""}
-      >
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder="Role" />
+
+      <Select value={category} onValueChange={(value) => setCategory(value)}>
+        <SelectTrigger className="w-full rounded-none">
+          <SelectValue placeholder="Category" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="driver">Driver</SelectItem>
-          <SelectItem value="rider">Rider</SelectItem>
+          <SelectItem value="SPORTS">Sports</SelectItem>
+          <SelectItem value="MUSIC">Music</SelectItem>
+          <SelectItem value="TECHNOLOGY">Technology</SelectItem>
+          <SelectItem value="BUSINESS">Business</SelectItem>
+          <SelectItem value="ARTS">Arts</SelectItem>
+          <SelectItem value="EDUCATION">Education</SelectItem>
+          <SelectItem value="SOCIAL">Social</SelectItem>
         </SelectContent>
       </Select>
-      <Select
-      // onValueChange={(value) => handleFilterChange("isActive", value)}
-      // value={filters.isActive || ""}
-      >
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder="Active Status" />
+
+      <Select value={status} onValueChange={(value) => setStatus(value)}>
+        <SelectTrigger className="w-full rounded-none">
+          <SelectValue placeholder="Status" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="active">Active</SelectItem>
-          <SelectItem value="inactive">Inactive</SelectItem>
+          <SelectItem value="UPCOMING">Upcoming</SelectItem>
+          <SelectItem value="ONGOING">Ongoing</SelectItem>
+          <SelectItem value="COMPLETED">Completed</SelectItem>
+          <SelectItem value="CANCELED">Canceled</SelectItem>
         </SelectContent>
       </Select>
-      <Select
-      // onValueChange={(value) => handleFilterChange("isBlocked", value)}
-      // value={filters.isActive || ""}
-      >
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder="Block Status" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="false">Open</SelectItem>
-          <SelectItem value="true">Blocked</SelectItem>
-        </SelectContent>
-      </Select>
-      <Select
-      // onValueChange={(value) =>
-      //   handleFilterChange(
-      //     "isApproved",
-      //     value === "true" ? "true" : "false"
-      //   )
-      // }
-      // value={
-      //   filters.isApproved !== undefined ? String(filters.isApproved) : ""
-      // }
-      >
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder="Approval" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="true">Approved</SelectItem>
-          <SelectItem value="false">Suspended</SelectItem>
-        </SelectContent>
-      </Select>
+
       <Button
-        // onClick={resetFilters}
-        variant="outline"
-        className="w-full md:w-auto"
+        variant="destructive"
+        className="w-full md:w-auto bg-red-400 rounded-none"
+        onClick={resetFilters}
       >
         Reset Filters
       </Button>
