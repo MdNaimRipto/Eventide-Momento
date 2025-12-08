@@ -1,11 +1,15 @@
 import CommonButton from "@/components/common/CommonButton";
 import { LocalFonts } from "@/components/common/fonts";
+import { IEvent } from "@/types/eventTypes";
+import { IUser } from "@/types/userTypes";
 import Image from "next/image";
 import Link from "next/link";
 
-const EventExtraSection = () => {
+const EventExtraSection = ({ event }: { event: IEvent }) => {
+  const host = event.hostId as unknown as IUser; // populated host
+
   return (
-    <div className="container mx-auto px-4 md:px-12 lg:px-24 mt-28 mb-20">
+    <div className="container mx-auto px-4 md:px-12 lg:px-24 mt-28 pb-20">
       <div className="flex flex-col md:flex-row gap-14">
         {/* LEFT SIDE – Additional Info */}
         <div className="md:w-2/3 flex flex-col gap-10">
@@ -22,35 +26,18 @@ const EventExtraSection = () => {
           {/* Info Block */}
           <div className="bg-secondary1/5 backdrop-blur-sm border border-secondary1/10 rounded-xl p-6 md:p-8 shadow-lg">
             <ul className="space-y-4 text-secondary1/80 text-base md:text-lg leading-relaxed">
-              <li className="flex items-start gap-3">
-                <span className="text-secondary1 text-xl">•</span>
-                Duration: 6 hours
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-secondary1 text-xl">•</span>
-                Meeting point: Central City Square
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-secondary1 text-xl">•</span>
-                Includes water, snacks, professional guide
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-secondary1 text-xl">•</span>
-                Recommended gear: hiking boots, backpack
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-secondary1 text-xl">•</span>
-                Group size: 6–12 people
-              </li>
+              {event.detailedInformations.map((info, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span className="text-secondary1 text-xl">•</span>
+                  {info}
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Description */}
           <p className="text-secondary1/70 text-base md:text-lg leading-relaxed">
-            This adventure is designed for both new and experienced hikers.
-            Expect scenic views, steady inclines, and plenty of photo
-            opportunities. Arrive 15 minutes early to ensure a smooth start and
-            get briefed by our expert guides.
+            {event.description}
           </p>
         </div>
 
@@ -68,8 +55,8 @@ const EventExtraSection = () => {
               {/* Avatar */}
               <div className="w-20 h-20 rounded-full overflow-hidden bg-secondary1/20 mb-4">
                 <Image
-                  src="https://github.com/shadcn.png"
-                  alt="Host"
+                  src={host.profileImage || "https://github.com/shadcn.png"}
+                  alt={host.userName || "Host"}
                   width={120}
                   height={120}
                   className="object-cover w-full h-full"
@@ -78,20 +65,23 @@ const EventExtraSection = () => {
 
               {/* Host Name */}
               <p className="text-secondary1 font-semibold text-xl">
-                John Walker
+                {host.userName || "Anonymous"}
               </p>
 
               {/* Email */}
               <p className="text-secondary1/70 text-sm mt-1">
-                john.walker@example.com
+                {host.email || "Not provided"}
               </p>
 
               {/* Member Since */}
               <p className="text-secondary1/60 text-xs mt-2 tracking-wide uppercase">
-                Member since 2017
+                Member since{" "}
+                {host.createdAt
+                  ? new Date(host.createdAt).getFullYear()
+                  : "N/A"}
               </p>
 
-              <Link href={""} className="mt-4">
+              <Link href={`/public-profile/${host._id}`} className="mt-4">
                 <CommonButton title="View Profile" />
               </Link>
             </div>
@@ -105,10 +95,22 @@ const EventExtraSection = () => {
               </h3>
 
               <ul className="space-y-3 text-secondary1/80 text-base md:text-lg">
-                <li>• Difficulty: Moderate</li>
-                <li>• Age requirement: 15+</li>
-                <li>• Weather: Expected clear skies</li>
-                <li>• Refund policy: 24 hours before start</li>
+                <li>
+                  • Event Date: {new Date(event.eventDate).toLocaleDateString()}
+                </li>
+                <li>
+                  • Event Time:{" "}
+                  {new Date(event.eventDate).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </li>
+                <li>
+                  • Participants: {event.minParticipants}-
+                  {event.maxParticipants}
+                </li>
+                <li>• Total Joined: {event.totalParticipants}</li>
+                <li>• Location: {event.location}</li>
               </ul>
             </div>
           </div>

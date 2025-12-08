@@ -1,17 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { LocalFonts } from "@/components/common/fonts";
-import CommonButton from "@/components/common/CommonButton";
 import ShutterText from "@/components/animations/ShutterText";
-import Reviews from "./Reviews";
 import EventExtraSection from "./EventExtraSection";
 import { useGetEventDetailsQuery } from "@/redux/features/eventApis";
 import { Loader } from "lucide-react";
 import { IEvent } from "@/types/eventTypes";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
+import BookEvent from "./booking/BookEvent";
 
 const EventDetails = () => {
   const router = useRouter();
@@ -38,6 +36,7 @@ const EventDetails = () => {
           src={event.banner}
           alt={event.eventName}
           fill
+          priority
           className="object-cover w-full h-full"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-primary/40 to-primary/80" />
@@ -52,6 +51,7 @@ const EventDetails = () => {
             alt={event.eventName}
             width={600}
             height={400}
+            priority
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
           />
         </div>
@@ -67,20 +67,20 @@ const EventDetails = () => {
 
           {/* Tags & Status */}
           <div className="flex items-center gap-4 flex-wrap">
-            <span className="border border-secondary1 text-secondary1 text-sm font-semibold px-4 py-1 rounded-full">
+            <span className="border border-secondary1 text-secondary1 text-xs font-semibold px-4 py-1 rounded-full">
               {event.category}
             </span>
 
             <span
-              className={`px-4 py-1 rounded-md text-[10px] tracking-widest font-semibold uppercase ${
+              className={`px-4 py-1 rounded-full border text-xs tracking-widest font-semibold uppercase ${
                 event.status === "UPCOMING"
-                  ? "bg-green-500/15 text-green-400"
+                  ? "bg-green-300/10 border-green-500 text-green-400"
                   : event.status === "ONGOING"
-                  ? "bg-blue-500/15 text-blue-400"
+                  ? "bg-blue-300/10 border-blue-500 text-blue-400"
                   : event.status === "COMPLETED"
-                  ? "bg-yellow-500/15 text-yellow-500"
+                  ? "bg-yellow-300/10 border-yellow-500 text-yellow-500"
                   : event.status === "CANCELED"
-                  ? "bg-red-500/15 text-red-500"
+                  ? "bg-red-300/10 border-red-500 text-red-500"
                   : ""
               }`}
             >
@@ -106,15 +106,10 @@ const EventDetails = () => {
           </p>
 
           {/* CTA Button */}
-          <div className="mt-0">
-            <Link href="">
-              <CommonButton title="Book Now" />
-            </Link>
-          </div>
+          <BookEvent event={event} />
         </div>
       </div>
-      <EventExtraSection />
-      <Reviews />
+      <EventExtraSection event={event} />
     </div>
   );
 };

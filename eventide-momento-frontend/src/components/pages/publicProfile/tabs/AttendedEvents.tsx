@@ -1,21 +1,18 @@
 import EventCard from "@/components/common/cards/EventCard";
 import Loader from "@/components/common/Loader";
-import { useGetUserOrdersQuery } from "@/redux/features/orderApis";
-import { IOrder } from "@/types/orderTypes";
+import { useGetHostEventsQuery } from "@/redux/features/eventApis";
+import { IEvent } from "@/types/eventTypes";
 
-const AttendedEvents = () => {
-  const { data, isLoading } = useGetUserOrdersQuery({});
+const AttendedEvents = ({ id }: { id: string }) => {
+  const { data, isLoading } = useGetHostEventsQuery({
+    hostId: id,
+  });
 
   if (isLoading) return <Loader />;
 
-  const orders = data?.data as IOrder[];
+  const allEvents = data?.data?.data as IEvent[];
 
-  const orderEvents = orders.map((order) => ({
-    ...order.eventId,
-    entryFee: order.paidAmount,
-  }));
-
-  const events = orderEvents.filter((e) => e.status === "COMPLETED");
+  const events = allEvents?.filter((e) => e.status === "COMPLETED");
 
   if (!isLoading && events.length === 0) {
     return (
@@ -25,8 +22,8 @@ const AttendedEvents = () => {
             No Events Found
           </p>
           <p className="text-sm mt-2">
-            Looks like you haven’t joined any events yet. Your attended events
-            will appear here once you participate.
+            This host hasn’t created any events yet. Any upcoming or past events
+            will be displayed here once they start hosting.
           </p>
         </div>
       </div>
@@ -57,8 +54,8 @@ const AttendedEvents = () => {
 
         return (
           <div key={i} className="relative">
-            <span className="px-4 py-1 bg-secondary2/60 backdrop-blur-3xl text-secondary1 text-[10px] tracking-widest font-semibold uppercase absolute top-4 right-4 z-10">
-              {badgeText}
+            <span className="px-4 py-1 bg-secondary2/60 backdrop-blur-3xl animate-pulse text-secondary1 text-[10px] tracking-widest font-semibold uppercase absolute top-4 right-4 z-10">
+              {event.status === "UPCOMING" ? badgeText : event.status}
             </span>
             <EventCard event={event} />
           </div>

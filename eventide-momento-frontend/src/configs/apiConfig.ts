@@ -9,19 +9,20 @@ export const apiConfig = {
     UPDATE_USER: "/users/updateUser", // Done
     UPDATE_PASSWORD: "/users/updatePassword", // Done
     GET_ALL: "/users/getAllUsers", // Done
+    GET_PUBLIC_PROFILE: "/users/getPublicProfile", // Done
   },
   EVENTS: {
     CREATE: "/events", // Done
     GET_ALL: "/events", // Done
-    DETAILS: "/events",
+    DETAILS: "/events", // Done
     GET_HOST_EVENTS: "/events/host", // Done
     UPDATE: "/events", // Done
     DELETE: "/events", // Done
   },
   ORDER: {
-    ORDER: "/payment/createPaymentLink",
-    GET_ALL: "/order/getAllOrders",
-    GET_USER: "/order/getUserOrders",
+    ORDER: "/payment/createPaymentLink", // Done
+    GET_ALL: "/order/getAllOrders", // Done
+    GET_USER: "/order/getUserOrders", // Done
   },
   REVIEWS: {
     ADD: "/reviews",

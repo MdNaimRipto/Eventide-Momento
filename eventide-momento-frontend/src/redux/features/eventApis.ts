@@ -71,11 +71,10 @@ export const eventApis = apiSlice.injectEndpoints({
         if (searchTerm) params.append("searchTerm", searchTerm);
         if (category) params.append("category", category);
         if (status) params.append("status", status);
-        if (hostId) params.append("hostId", hostId);
 
         const queryString = params.toString();
         return {
-          url: `${apiConfig.EVENTS.GET_HOST_EVENTS}${
+          url: `${apiConfig.EVENTS.GET_HOST_EVENTS}/${hostId}${
             queryString ? `?${queryString}` : ""
           }`,
           method: "GET",
