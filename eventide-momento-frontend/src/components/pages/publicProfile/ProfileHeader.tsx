@@ -4,7 +4,6 @@ import Image from "next/image";
 import CommonButton from "@/components/common/CommonButton";
 import { LocalFonts } from "@/components/common/fonts";
 import ShutterText from "@/components/animations/ShutterText";
-import Link from "next/link";
 import { IUser } from "@/types/userTypes";
 
 export default function ProfileHeader({ host }: { host: IUser }) {
@@ -39,13 +38,7 @@ export default function ProfileHeader({ host }: { host: IUser }) {
           >
             <ShutterText text={host?.userName as string} />
           </h5>
-
-          <Link
-            href={"/user/profile?tab=settings"}
-            className="mt-2 flex gap-3 scale-75 md:-ml-6"
-          >
-            <CommonButton title={"Edit Profile"} />
-          </Link>
+          <CommonButton title={"Follow Profile"} />
         </div>
 
         {/* Stats */}

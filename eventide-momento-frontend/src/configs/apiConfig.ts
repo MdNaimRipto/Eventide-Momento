@@ -1,6 +1,6 @@
 export const apiConfig = {
-  // BASE_URL: "https://better-plate-backend.vercel.app/v1.0.0/apis",
-  BASE_URL: "http://localhost:5000/v1.0.0/apis",
+  BASE_URL: "https://assignment-08-backend.vercel.app/v1.0.0/apis",
+  // BASE_URL: "http://localhost:5000/v1.0.0/apis",
   USER: {
     REGISTER: "/users/register", // Done
     LOGIN: "/users/login", // Done

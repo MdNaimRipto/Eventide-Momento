@@ -25,8 +25,10 @@ import {
 import { useDeleteEventMutation } from "@/redux/features/eventApis";
 import { postApiHandler } from "@/lib/postApiHandler";
 import { Spinner } from "@/components/ui/spinner";
+import { useUserContext } from "@/contexts/AuthContext";
 
 const EventsTable = () => {
+  const { user } = useUserContext();
   const [updateEvent, setUpdateEvent] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<IEvent | null>(null);
 
@@ -34,13 +36,12 @@ const EventsTable = () => {
   const searchTerm = searchParams.get("searchTerm") || "";
   const category = searchParams.get("category") || "";
   const status = searchParams.get("status") || "";
-  const hostId = searchParams.get("hostId") || "";
 
   const { data, isLoading } = useGetHostEventsQuery({
     searchTerm,
     category,
     status,
-    hostId,
+    hostId: user?._id,
   });
 
   const [deleteEvent] = useDeleteEventMutation();
