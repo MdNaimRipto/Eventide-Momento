@@ -31,7 +31,7 @@ const NavItems = ({
     },
     {
       item: "Contact Us",
-      path: "/contact",
+      path: "/about-us#contact",
     },
     {
       item: "About Us",
@@ -39,7 +39,7 @@ const NavItems = ({
     },
     {
       item: "Blogs",
-      path: "/blog",
+      path: "",
     },
   ];
 

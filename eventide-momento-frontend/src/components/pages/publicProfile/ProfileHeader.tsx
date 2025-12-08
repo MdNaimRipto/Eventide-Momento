@@ -5,6 +5,7 @@ import CommonButton from "@/components/common/CommonButton";
 import { LocalFonts } from "@/components/common/fonts";
 import ShutterText from "@/components/animations/ShutterText";
 import { IUser } from "@/types/userTypes";
+import { toast } from "sonner";
 
 export default function ProfileHeader({ host }: { host: IUser }) {
   const stats = [
@@ -38,7 +39,12 @@ export default function ProfileHeader({ host }: { host: IUser }) {
           >
             <ShutterText text={host?.userName as string} />
           </h5>
-          <CommonButton title={"Follow Profile"} />
+          <div className="scale-75 -ml-6">
+            <CommonButton
+              title={"Follow Profile"}
+              onClick={() => toast.success("Profile Followed!")}
+            />
+          </div>
         </div>
 
         {/* Stats */}

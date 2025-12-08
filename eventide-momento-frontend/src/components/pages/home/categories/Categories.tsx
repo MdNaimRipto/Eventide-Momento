@@ -1,7 +1,12 @@
 "use client";
 
-import bg01 from "@/assets/images/home/hero-banner.webp";
-import bg02 from "@/assets/images/auth/banner.webp";
+import bg01 from "@/assets/images/home/categories/01.webp";
+import bg02 from "@/assets/images/home/categories/02.webp";
+import bg03 from "@/assets/images/home/categories/03.webp";
+import bg04 from "@/assets/images/home/categories/04.webp";
+import bg05 from "@/assets/images/home/categories/05.webp";
+import bg06 from "@/assets/images/home/categories/06.webp";
+import bg07 from "@/assets/images/home/categories/07.webp";
 import { LocalFonts } from "@/components/common/fonts";
 import Image, { StaticImageData } from "next/image";
 import CategoryOptions from "./CategoryOptions";
@@ -17,11 +22,11 @@ const Categories = () => {
   const categories = [
     { title: "SPORTS", image: bg01 },
     { title: "MUSIC", image: bg02 },
-    { title: "TECHNOLOGY", image: bg01 },
-    { title: "BUSINESS", image: bg02 },
-    { title: "ARTS", image: bg01 },
-    { title: "EDUCATION", image: bg02 },
-    { title: "SOCIAL", image: bg01 },
+    { title: "TECHNOLOGY", image: bg03 },
+    { title: "BUSINESS", image: bg04 },
+    { title: "ARTS", image: bg05 },
+    { title: "EDUCATION", image: bg06 },
+    { title: "SOCIAL", image: bg07 },
   ];
 
   const [currentImg, setCurrentImg] = useState(categories[0].image);
