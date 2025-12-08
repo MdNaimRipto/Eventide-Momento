@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import Image, { StaticImageData } from "next/image";
 import { Autoplay } from "swiper/modules";
 import { LocalFonts } from "@/components/common/fonts";
+import Link from "next/link";
 
 interface Card {
   title: string;
@@ -58,8 +59,9 @@ const CategoryOptions = ({ cards, setActiveBg }: CategoryOptionsProps) => {
         {cards.map((card, i) => (
           <SwiperSlide key={i}>
             {({ isActive, isPrev, isNext }) => (
-              <div
-                className={`relative overflow-hidden w-full h-full rounded-xl transition-all duration-700
+              <Link
+                href={`/events?category=${card.title}`}
+                className={`block relative overflow-hidden w-full h-full rounded-xl transition-all duration-700
                   ${
                     isActive
                       ? "border-4 border-secondary2 md:scale-105 z-20"
@@ -89,7 +91,7 @@ const CategoryOptions = ({ cards, setActiveBg }: CategoryOptionsProps) => {
                     } duration-700 text-3xl mb-[1px] text-white`}
                   />
                 </div>
-              </div>
+              </Link>
             )}
           </SwiperSlide>
         ))}

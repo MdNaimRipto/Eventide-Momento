@@ -14,18 +14,19 @@ import Link from "next/link";
 const Categories = () => {
   const lines = ["Explore", "Hobbies", "Together"];
 
-  const sampleCards = [
-    { title: "Hiking Adventure", image: bg01 },
-    { title: "Board Game Night", image: bg02 },
-    { title: "Music Concert", image: bg01 },
-    { title: "Tech Meetup", image: bg02 },
-    { title: "Art Workshop", image: bg01 },
-    { title: "Board Game Night", image: bg02 },
+  const categories = [
+    { title: "SPORTS", image: bg01 },
+    { title: "MUSIC", image: bg02 },
+    { title: "TECHNOLOGY", image: bg01 },
+    { title: "BUSINESS", image: bg02 },
+    { title: "ARTS", image: bg01 },
+    { title: "EDUCATION", image: bg02 },
+    { title: "SOCIAL", image: bg01 },
   ];
 
-  const [currentImg, setCurrentImg] = useState(sampleCards[0].image);
+  const [currentImg, setCurrentImg] = useState(categories[0].image);
   const [fade, setFade] = useState(false);
-  const [transitionImg, setTransitionImg] = useState(sampleCards[0].image);
+  const [transitionImg, setTransitionImg] = useState(categories[0].image);
 
   const handleBgChange = (img: StaticImageData) => {
     // Put the incoming image on the transition layer
@@ -76,7 +77,7 @@ const Categories = () => {
       <div className="absolute z-10 bg-gradient-to-r from-secondary1/40 to-secondary1/50 w-full h-full" />
 
       {/* Carousel */}
-      <CategoryOptions cards={sampleCards} setActiveBg={handleBgChange} />
+      <CategoryOptions cards={categories} setActiveBg={handleBgChange} />
 
       {/* Text Layer */}
       <div

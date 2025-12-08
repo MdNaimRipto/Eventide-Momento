@@ -103,6 +103,16 @@ export const userApis = apiSlice.injectEndpoints({
       },
       providesTags: ["USER"],
     }),
+    //
+    // * Get Public Profile
+    //
+    getPublicProfile: builder.query({
+      query: (id) => ({
+        url: apiConfig.USER.GET_PUBLIC_PROFILE + `/${id}`,
+        method: "GET",
+      }),
+      providesTags: ["USER"],
+    }),
   }),
 });
 
@@ -114,4 +124,5 @@ export const {
   useUpdateUserMutation,
   useUpdatePasswordMutation,
   useGetAllUsersQuery,
+  useGetPublicProfileQuery,
 } = userApis;
