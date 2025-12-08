@@ -22,10 +22,12 @@ const RegisterForm = () => {
     const formData = new FormData(e.currentTarget);
 
     const options = {
-      fullName: formData.get("fullName"),
-      email: formData.get("email"),
-      contact: formData.get("contact"),
-      password: formData.get("password"),
+      data: {
+        userName: formData.get("fullName"),
+        email: formData.get("email"),
+        contactNumber: formData.get("contact"),
+        password: formData.get("password"),
+      },
     };
 
     await postApiHandler({
