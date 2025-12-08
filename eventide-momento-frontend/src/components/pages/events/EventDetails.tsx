@@ -60,7 +60,7 @@ const EventDetails = () => {
         <div className="md:w-1/2 flex flex-col gap-6">
           {/* Title */}
           <h1
-            className={`${LocalFonts.anton.className} text-3xl md:text-4xl xl:text-6xl leading-tight text-secondary1`}
+            className={`${LocalFonts.anton.className} text-3xl md:text-4xl xl:text-6xl leading-tight text-secondary1 lg:whitespace-nowrap`}
           >
             <ShutterText text={event.eventName} />
           </h1>
@@ -74,13 +74,13 @@ const EventDetails = () => {
             <span
               className={`px-4 py-1 rounded-full border text-xs tracking-widest font-semibold uppercase ${
                 event.status === "UPCOMING"
-                  ? "bg-green-300/10 border-green-500 text-green-400"
+                  ? "bg-green-300/10 border-green-500 text-green-600"
                   : event.status === "ONGOING"
-                  ? "bg-blue-300/10 border-blue-500 text-blue-400"
+                  ? "bg-blue-300/10 border-blue-500 text-blue-600"
                   : event.status === "COMPLETED"
-                  ? "bg-yellow-300/10 border-yellow-500 text-yellow-500"
+                  ? "bg-yellow-300/10 border-yellow-500 text-yellow-600"
                   : event.status === "CANCELED"
-                  ? "bg-red-300/10 border-red-500 text-red-500"
+                  ? "bg-red-300/10 border-red-500 text-red-600"
                   : ""
               }`}
             >
@@ -102,7 +102,9 @@ const EventDetails = () => {
 
           {/* Description */}
           <p className="text-secondary1/80 text-base md:text-sm xl:text-lg leading-relaxed mt-4">
-            {event.description}
+            {event.description.length >= 250
+              ? event.description.slice(0, 250) + "..."
+              : event.description}
           </p>
 
           {/* CTA Button */}

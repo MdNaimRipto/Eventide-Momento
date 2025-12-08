@@ -1,6 +1,8 @@
 "use client";
 
-import host from "@/assets/images/home/hero-banner.webp";
+import host01 from "@/assets/images/home/persons/01.webp";
+import host02 from "@/assets/images/home/persons/02.webp";
+import host03 from "@/assets/images/home/persons/03.webp";
 import { LocalFonts } from "@/components/common/fonts";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -8,9 +10,9 @@ import { Autoplay } from "swiper/modules";
 import ShutterText from "@/components/animations/ShutterText";
 
 const hosts = [
-  { name: "Mason Carter", image: host },
-  { name: "Aiden Brooks", image: host },
-  { name: "Riley Turner", image: host },
+  { name: "Mason Carter", image: host01 },
+  { name: "Aiden Brooks", image: host02 },
+  { name: "Riley Turner", image: host03 },
 ];
 
 // const lines = ["Meet", "With Our", "Top Hosts"];
