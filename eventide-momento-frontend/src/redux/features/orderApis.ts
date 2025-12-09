@@ -37,6 +37,16 @@ export const orderApis = apiSlice.injectEndpoints({
       }),
       providesTags: ["ORDER"],
     }),
+    //
+    // * Get Order Overview
+    //
+    getOrderOverview: builder.query({
+      query: () => ({
+        url: apiConfig.ORDER.OVERVIEW,
+        method: "GET",
+      }),
+      providesTags: ["ORDER"],
+    }),
   }),
 });
 
@@ -44,4 +54,5 @@ export const {
   usePlaceOrderMutation,
   useGetAllOrdersQuery,
   useGetUserOrdersQuery,
+  useGetOrderOverviewQuery,
 } = orderApis;
