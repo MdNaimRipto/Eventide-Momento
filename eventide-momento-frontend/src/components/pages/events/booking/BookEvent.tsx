@@ -6,6 +6,7 @@ import {
   IApiSuccessResponse,
 } from "@/types/apiResponseTypes";
 import { IEvent } from "@/types/eventTypes";
+import { IUser } from "@/types/userTypes";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -27,6 +28,7 @@ const BookEvent = ({ event }: { event: IEvent }) => {
     const option = {
       data: {
         userId: user?._id,
+        hostId: (event.hostId as unknown as IUser)?._id,
         eventId: event._id,
         paidAmount: amount,
         currency: "bdt",

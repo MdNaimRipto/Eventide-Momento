@@ -23,6 +23,7 @@ export const apiConfig = {
     ORDER: "/payment/createPaymentLink", // Done
     GET_ALL: "/order/getAllOrders", // Done
     GET_USER: "/order/getUserOrders", // Done
+    OVERVIEW: "/order/getOrdersOverview",
   },
   REVIEWS: {
     ADD: "/reviews",

@@ -14,6 +14,7 @@ import { IApiSuccessResponse } from "@/types/apiResponseTypes";
 import { Spinner } from "@/components/ui/spinner";
 import Link from "next/link";
 import { apiConfig } from "@/configs/apiConfig";
+import { useGetOrderOverviewQuery } from "@/redux/features/orderApis";
 
 export default function ProfileHeader() {
   const { user } = useUserContext();
@@ -56,10 +57,24 @@ export default function ProfileHeader() {
     }
   };
 
-  console.log(user?.profileImage);
+  interface IOverview {
+    totalOrders: number;
+    totalAmount: number;
+  }
+
+  const { data, isLoading: overviewLoading } = useGetOrderOverviewQuery({});
+
+  const overView = (
+    overviewLoading
+      ? {
+          totalAmount: 0,
+          totalOrders: 0,
+        }
+      : data?.data
+  ) as IOverview;
 
   const stats = [
-    { label: "Followers", value: 2985 },
+    { label: "Revenue", value: overviewLoading ? 0 : overView?.totalAmount },
     { label: "Hosted", value: 132 },
     { label: "Attended", value: 548 },
   ];
