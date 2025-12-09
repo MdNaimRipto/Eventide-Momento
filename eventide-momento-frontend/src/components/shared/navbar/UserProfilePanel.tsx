@@ -92,7 +92,7 @@ const UserProfilePanel = () => {
         ref={drawerRef}
         className={`
           ${LocalFonts.anton.className}
-          absolute left-0 bottom-full mb-4 overflow-hidden
+          absolute left-0 min-w-[200px] bottom-full mb-4 overflow-hidden
           bg-white border border-black/20
           transform transition-all duration-300 ease-out
           ${
