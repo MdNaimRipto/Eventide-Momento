@@ -2,9 +2,11 @@ import Banner from "./banner/Banner";
 import Categories from "./categories/Categories";
 import CTA from "./CTA/CTA";
 import HowItWorks from "./howItWorks/HowItWorks";
+import Memories from "./memories/Memories";
+import Reviews from "./reviews/Reviews";
 import Stats from "./stats/Stats";
-import Testimonials from "./testimonials/Testimonials";
 import TopHosts from "./topHosts/TopHosts";
+import UpcomingEvents from "./upcomingEvents/UpcomingEvents";
 
 const HomeMain = () => {
   return (
@@ -12,9 +14,12 @@ const HomeMain = () => {
       <Banner />
       <HowItWorks />
       <Categories />
+      <UpcomingEvents />
       <Stats />
+      {/* <Blogs /> */}
       <TopHosts />
-      <Testimonials />
+      <Memories />
+      <Reviews />
       <CTA />
     </div>
   );

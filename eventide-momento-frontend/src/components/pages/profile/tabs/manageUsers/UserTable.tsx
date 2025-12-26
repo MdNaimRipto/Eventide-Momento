@@ -30,8 +30,6 @@ const UserTable = () => {
 
   const users = (data?.data?.data as IUser[]) || [];
 
-  console.log(users);
-
   const tableHeader = ["Id", "Image", "Name", "Email", "Contact", "Role"];
 
   return (

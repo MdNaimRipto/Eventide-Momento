@@ -1,5 +1,4 @@
 "use client";
-
 import bg01 from "@/assets/images/home/categories/01.webp";
 import bg02 from "@/assets/images/home/categories/02.webp";
 import bg03 from "@/assets/images/home/categories/03.webp";
@@ -34,31 +33,26 @@ const Categories = () => {
   const [transitionImg, setTransitionImg] = useState(categories[0].image);
 
   const handleBgChange = (img: StaticImageData) => {
-    // Put the incoming image on the transition layer
     setTransitionImg(img);
 
-    // Restart fade
     setFade(false);
 
-    // Use RAF twice so browser *paints* before the fade starts
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         setFade(true);
       });
     });
 
-    // After fade completes, lock it in as the main background
     setTimeout(() => {
       setCurrentImg(img);
       setFade(false);
-    }, 1600); // match your transition duration
+    }, 1600);
   };
 
   return (
-    <div className="relative w-full h-[860px] md:h-[850px] lg:h-screen overflow-hidden z-[500]">
+    <div className="relative w-full h-[860px] md:h-[850px] lg:h-[1000px] overflow-hidden z-[500]">
       <div className="absolute z-10 bg-gradient-to-r from-secondary1/40 to-secondary1/50 w-full h-full" />
       <div className="relative w-full h-full overflow-hidden">
-        {/* Always-visible base background */}
         <Image
           src={currentImg}
           alt="bg"
@@ -67,7 +61,6 @@ const Categories = () => {
           priority
         />
 
-        {/* Fading new image */}
         <Image
           src={transitionImg}
           alt="transition"
@@ -78,15 +71,12 @@ const Categories = () => {
         />
       </div>
 
-      {/* Gradient Overlay */}
       <div className="absolute z-10 bg-gradient-to-r from-secondary1/40 to-secondary1/50 w-full h-full" />
 
-      {/* Carousel */}
       <CategoryOptions cards={categories} setActiveBg={handleBgChange} />
 
-      {/* Text Layer */}
       <div
-        className={`lg:bg-primary overflow-hidden absolute right-0 top-0 h-full lg:w-[440px] xl:w-[550px] 2xl:w-[764px] z-30 container flex flex-col lg:justify-center gap-6 mt-10 lg:mt-0`}
+        className={`lg:bg-primary overflow-hidden absolute right-0 top-0 lg:h-full lg:w-[440px] xl:w-[550px] 2xl:w-[764px] z-30 container flex flex-col lg:justify-center gap-6 mt-10 lg:mt-0`}
       >
         <h1
           className={`text-primary lg:text-secondary1 text-5xl lg:text-8xl xl:text-[7rem] 2xl:text-9xl flex flex-col gap-2 whitespace-nowrap tracking-[.95px] ${LocalFonts.anton.className}`}

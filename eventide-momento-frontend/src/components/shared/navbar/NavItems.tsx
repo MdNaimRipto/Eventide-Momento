@@ -30,16 +30,16 @@ const NavItems = ({
       path: "/events",
     },
     {
+      item: "Memories",
+      path: "/#memories",
+    },
+    {
       item: "Contact Us",
       path: "/about-us#contact",
     },
     {
       item: "About Us",
       path: "/about-us",
-    },
-    {
-      item: "Blogs",
-      path: "",
     },
   ];
 
@@ -90,25 +90,20 @@ const NavItems = ({
         // </div>
         <UserProfilePanel />
       ) : (
-        <div className="absolute bottom-8 left-8 md:bottom-16 md:left-16 flex items-center gap-2">
+        <Link
+          href="/auth/login"
+          className="absolute bottom-8 left-8 md:bottom-16 md:left-16 flex items-center gap-2"
+        >
           <AiOutlineUser className="text-5xl md:text-6xl border border-black rounded-full p-1" />
           <div className="flex flex-col gap-1">
             <h6
               className={`${LocalFonts.anton.className} text-base md:text-xl`}
             >
-              <Link
-                className="hover:text-secondary1 duration-700"
-                href={"/auth/login"}
-              >
-                Login
-              </Link>{" "}
+              <span className="hover:text-secondary1 duration-700">Login</span>{" "}
               /{" "}
-              <Link
-                className="hover:text-secondary1 duration-700"
-                href={"/auth/register"}
-              >
+              <span className="hover:text-secondary1 duration-700">
                 Register
-              </Link>
+              </span>
             </h6>
             <button
               disabled
@@ -117,7 +112,7 @@ const NavItems = ({
               Profile & Dashboard
             </button>
           </div>
-        </div>
+        </Link>
       )}
     </div>
   );

@@ -14,7 +14,7 @@ const Banner = () => {
   const textBase = `text-5xl md:text-8xl 2xl:text-9xl flex flex-col gap-2 whitespace-nowrap tracking-[.95px] 2xl:ml-[3.7rem] ${LocalFonts.anton.className}`;
 
   return (
-    <div className="relative w-full h-screen">
+    <div className="relative w-full h-[960px]">
       <div className="absolute z-10 bg-gradient-to-r from-secondary1/40 to-secondary1/50 w-full h-full" />
       <div className="absolute w-full h-full overflow-hidden z-0 -scale-x-100">
         <Image

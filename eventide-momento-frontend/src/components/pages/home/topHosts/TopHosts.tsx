@@ -20,7 +20,7 @@ const lines = ["Meet", "Our Finest", "Top Event Hosts"];
 
 const TopHosts = () => {
   return (
-    <div className="container pb-16 px-2 md:px-4 xl:px-16">
+    <div className="container px-2 md:px-4 xl:px-16">
       <h1
         className={`text-secondary1 text-4xl md:text-5xl xl:text-6xl mb-8 flex flex-col whitespace-nowrap tracking-[.95px] ${LocalFonts.anton.className}`}
       >

@@ -10,6 +10,8 @@ import { IEvent } from "@/types/eventTypes";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import BookEvent from "./booking/BookEvent";
+import RelatedEvents from "./RelatedEvents";
+import ShareButton from "@/components/common/ShareButton";
 
 const EventDetails = () => {
   const router = useRouter();
@@ -108,10 +110,15 @@ const EventDetails = () => {
           </p>
 
           {/* CTA Button */}
-          <BookEvent event={event} />
+          {/* CTA Buttons */}
+          <div className="flex items-center gap-4 flex-wrap h-[44px] overflow-hidden">
+            <BookEvent event={event} />
+            <ShareButton />
+          </div>
         </div>
       </div>
       <EventExtraSection event={event} />
+      <RelatedEvents />
     </div>
   );
 };

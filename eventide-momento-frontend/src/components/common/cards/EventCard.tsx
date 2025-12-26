@@ -3,19 +3,35 @@ import { LocalFonts } from "../fonts";
 import Link from "next/link";
 import CommonButton from "../CommonButton";
 import { IEvent } from "@/types/eventTypes";
+import { HiOutlineCalendar, HiOutlineLocationMarker } from "react-icons/hi";
 
 const EventCard = ({ event }: { event: IEvent }) => {
   return (
-    <div className="bg-primary w-full overflow-hidden shadow-lg">
+    <div className="bg-primary w-full overflow-hidden shadow-lg group">
       {/* Image Section */}
-      <div className="w-full h-[250px] relative overflow-hidden">
+      <div className="w-full h-[250px] relative overflow-hidden group">
         <Image
           src={event.banner}
           alt="events-image"
           width={400}
           height={400}
-          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
+
+        <div
+          className="absolute bottom-0 left-0 w-full bg-primary/0 backdrop-blur-lg  text-secondary1
+                  text-xs flex items-center justify-between px-4 py-2 opacity-0
+                  transition-all duration-500 group-hover:opacity-100 group-hover:bg-primary/80"
+        >
+          <div className="flex items-center gap-1">
+            <HiOutlineCalendar className="text-secondary1" />
+            <span>{new Date(event.eventDate).toLocaleDateString()}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <HiOutlineLocationMarker className="text-secondary1" />
+            <span>{event.location}</span>
+          </div>
+        </div>
       </div>
 
       {/* Description Section */}
@@ -67,6 +83,7 @@ const EventCard = ({ event }: { event: IEvent }) => {
           {/* Button */}
           <Link
             href={`/events/${event._id}`}
+            scroll={true}
             className="scale-90 md:scale-100 -mr-4 md:-mr-0"
           >
             <CommonButton title="View Details" />
