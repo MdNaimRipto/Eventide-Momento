@@ -1,4 +1,3 @@
-"use client";
 import EventsTable from "./EventsTable";
 import EventsFilters from "./EventsFilters";
 import Pagination from "@/components/common/Pagination";
@@ -10,7 +9,6 @@ const ManageEvents = () => {
   const [addNewEvent, setAddNewEvent] = useState(false);
   return (
     <div className="pt-10">
-      {/* Filters */}
       <div className="flex flex-col lg:flex-row justify-between">
         <EventsFilters />
         <Button
@@ -21,9 +19,7 @@ const ManageEvents = () => {
           Add New Event
         </Button>
       </div>
-      {/* Table */}
       <EventsTable />
-      {/* Pagination */}
       <Pagination />
       {addNewEvent && <AddNewEvent setAddNewEvent={setAddNewEvent} />}
     </div>

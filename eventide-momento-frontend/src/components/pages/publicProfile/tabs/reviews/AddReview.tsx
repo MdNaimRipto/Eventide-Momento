@@ -37,8 +37,6 @@ const AddReview = ({ id }: { id: string }) => {
       },
     };
 
-    console.log(option);
-
     await postApiHandler({
       mutateFn: addReview,
       options: option,

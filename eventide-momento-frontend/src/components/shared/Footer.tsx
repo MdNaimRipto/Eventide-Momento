@@ -6,9 +6,9 @@ const Footer = () => {
   const menuItems = [
     { item: "Home", path: "/" },
     { item: "Events", path: "/events" },
-    { item: "Contact Us", path: "/about-us#contact" },
     { item: "About Us", path: "/about-us" },
-    { item: "Blogs", path: "" },
+    { item: "Support", path: "/help-support" },
+    { item: "Terms", path: "/terms" },
   ];
 
   const year = new Date().getFullYear();

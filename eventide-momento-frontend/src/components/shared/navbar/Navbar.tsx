@@ -59,7 +59,7 @@ const Navbar = () => {
           isHomePage && !isScrolled ? "bg-white/0" : "bg-primary"
         } duration-700`}
       >
-        <div className="flex w-full h-full justify-between items-center px-4 2xl:max-w-[1600px] mx-auto">
+        <div className="flex w-full h-full justify-between items-center px-4 xl:max-w-[1600px] mx-auto">
           <NavLogo />
 
           {/* Wrap hamburger for ref */}

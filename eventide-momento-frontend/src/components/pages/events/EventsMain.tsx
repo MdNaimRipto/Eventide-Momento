@@ -5,6 +5,7 @@ import Loader from "@/components/common/Loader";
 import { IEvent } from "@/types/eventTypes";
 import { useGetAllEventsQuery } from "@/redux/features/eventApis";
 import { useSearchParams } from "next/navigation";
+import EventCardSkeleton from "@/components/common/skeleton/EventCardSkeleton";
 
 const EventsMain = () => {
   const searchParams = useSearchParams();
@@ -20,7 +21,17 @@ const EventsMain = () => {
     hostId,
   });
 
-  if (isLoading) return <Loader />;
+  if (isLoading)
+    return (
+      <div className="px-4 2xl:max-w-[1600px] h-[500px] mx-auto my-20">
+        <EventHeaderSection />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-16">
+          {Array.from({ length: 12 }).map((_, i) => (
+            <EventCardSkeleton key={i} />
+          ))}
+        </div>
+      </div>
+    );
 
   const events = (data?.data?.data as IEvent[]) || [];
 

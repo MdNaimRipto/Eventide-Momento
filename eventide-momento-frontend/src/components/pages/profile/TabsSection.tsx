@@ -19,6 +19,7 @@ export default function TabsSection() {
     value: string;
     roles: Array<roleEnums>;
   }> = [
+    { tab: "Overview", value: "overview", roles: ["ADMIN"] },
     { tab: "Manage Events", value: "manage-events", roles: ["ADMIN", "HOST"] },
     { tab: "Manage Users", value: "manage-users", roles: ["ADMIN"] },
     {

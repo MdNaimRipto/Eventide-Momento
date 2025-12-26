@@ -1,8 +1,27 @@
 import Image from "next/image";
 import bg from "@/assets/images/auth/banner.webp";
 import { LocalFonts } from "@/components/common/fonts";
+import { FaLinkedinIn, FaGithub, FaFacebook } from "react-icons/fa";
 
 const CTA = () => {
+  const socialLinks = [
+    {
+      icon: FaLinkedinIn,
+      link: "https://www.linkedin.com/in/naimur-rahman2001",
+      label: "LinkedIn",
+    },
+    {
+      icon: FaGithub,
+      link: "https://github.com/MdNaimRipto",
+      label: "GitHub",
+    },
+    {
+      icon: FaFacebook,
+      link: "https://www.facebook.com/mdnaimur.rahman.50309",
+      label: "Instagram",
+    },
+  ];
+
   return (
     <div className="relative w-full h-[600px] md:h-screen">
       <div className="absolute z-10 bg-gradient-to-r from-primary/10 to-primary/10 w-full h-full" />
@@ -31,8 +50,32 @@ const CTA = () => {
           <p
             className={`${LocalFonts.anton.className} text-lg md:text-2xl text-secondary1 md:mt-8`}
           >
-            eventide.momento@gmail.com
+            <a
+              href="mailto:mdnaimurrahman681@gmail.com"
+              className="hover:underline"
+              target="_blank"
+            >
+              eventide.momento@gmail.com
+            </a>
           </p>
+
+          <div className="flex items-center justify-center gap-6">
+            {socialLinks.map((item) => {
+              const Icon = item.icon;
+              return (
+                <a
+                  key={item.label}
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-black/30 text-2xl hover:text-secondary2 transition-colors duration-300"
+                  aria-label={item.label}
+                >
+                  <Icon />
+                </a>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

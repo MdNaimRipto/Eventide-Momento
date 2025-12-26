@@ -14,6 +14,7 @@ import OpacityTransition from "@/components/animations/OpacityTransition";
 import { useUserContext } from "@/contexts/AuthContext";
 import { ReactNode } from "react";
 import { roleEnums } from "@/types/userTypes";
+import AdminOverview from "./tabs/overview/OverView";
 
 export default function ProfileMain() {
   const { user } = useUserContext();
@@ -24,6 +25,11 @@ export default function ProfileMain() {
     component: ReactNode;
     roles: Array<roleEnums>;
   }> = [
+    {
+      value: "overview",
+      component: <AdminOverview />,
+      roles: ["ADMIN"],
+    },
     {
       value: "manage-events",
       component: <ManageEvents />,

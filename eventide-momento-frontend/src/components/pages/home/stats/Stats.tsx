@@ -10,7 +10,7 @@ const statsData = [
 
 const Stats = () => {
   return (
-    <div className="container grid md:grid-cols-4 px-0 scale-95 my-16 h-[1200px] md:h-[300px] lg:h-[400px] xl:h-[500px] border border-secondary1">
+    <div className="container grid md:grid-cols-4 px-0 scale-95 mb-16 h-[1200px] md:h-[300px] lg:h-[400px] xl:h-[500px] border border-secondary1">
       {statsData.map((stat, index) => {
         const isAlt = index === 1; // second card special
 

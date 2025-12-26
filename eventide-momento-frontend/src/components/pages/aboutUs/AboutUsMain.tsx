@@ -5,6 +5,8 @@ import ShutterText from "@/components/animations/ShutterText";
 import bg from "@/assets/images/auth/banner.webp";
 import CommonButton from "@/components/common/CommonButton";
 import { toast } from "sonner";
+import Link from "next/link";
+import { FaLinkedinIn, FaGithub, FaFacebook } from "react-icons/fa";
 
 const AboutUsMain = () => {
   const handleContactSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -12,16 +14,30 @@ const AboutUsMain = () => {
 
     const form = e.currentTarget;
 
-    // Clear all fields
     form.reset();
-
-    // Toast
     toast.success("Message sent successfully!");
   };
 
+  const socialLinks = [
+    {
+      icon: FaLinkedinIn,
+      link: "https://www.linkedin.com/in/naimur-rahman2001",
+      label: "LinkedIn",
+    },
+    {
+      icon: FaGithub,
+      link: "https://github.com/MdNaimRipto",
+      label: "GitHub",
+    },
+    {
+      icon: FaFacebook,
+      link: "https://www.facebook.com/mdnaimur.rahman.50309",
+      label: "Instagram",
+    },
+  ];
+
   return (
     <div className="w-full min-h-screen bg-primary text-secondary1 scroll-smooth mt-16">
-      {/* Hero Section */}
       <div className="relative w-full h-[400px] md:h-[500px]">
         <Image src={bg} alt="About Us" fill className="object-cover" priority />
         <div className="absolute inset-0 bg-gradient-to-b from-primary/40 to-primary/90" />
@@ -37,19 +53,34 @@ const AboutUsMain = () => {
             creativity, and memorable moments.
           </p>
 
-          <a
+          <Link
             href="#contact"
             className="mt-6 px-6 py-2 text-sm border border-secondary1/40 rounded-full hover:bg-secondary1/10 transition-all"
           >
             Contact Us
-          </a>
+          </Link>
+          <div className="flex items-center justify-center gap-6 mt-6">
+            {socialLinks.map((item) => {
+              const Icon = item.icon;
+              return (
+                <a
+                  key={item.label}
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-secondary1 text-2xl hover:text-black/30 transition-colors duration-300"
+                  aria-label={item.label}
+                >
+                  <Icon />
+                </a>
+              );
+            })}
+          </div>
         </div>
       </div>
 
-      {/* About Content */}
       <div className="container mx-auto px-4 md:px-12 lg:px-24 py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          {/* Left Text */}
           <div>
             <h2
               className={`${LocalFonts.anton.className} text-3xl md:text-5xl text-secondary1 text-end`}
@@ -71,7 +102,6 @@ const AboutUsMain = () => {
             </p>
           </div>
 
-          {/* Right Image */}
           <div className="w-full h-[350px] md:h-[450px] rounded-none overflow-hidden shadow-lg">
             <Image
               src={bg}
@@ -83,7 +113,6 @@ const AboutUsMain = () => {
           </div>
         </div>
 
-        {/* Vision */}
         <div className="mt-20 text-center max-w-4xl mx-auto">
           <h2
             className={`${LocalFonts.anton.className} text-3xl md:text-5xl text-secondary1`}
@@ -99,7 +128,6 @@ const AboutUsMain = () => {
         </div>
       </div>
 
-      {/* Contact Section */}
       <div
         id="contact"
         className="w-full bg-primary/40 border-t border-secondary1/10 py-20 scroll-mt-24"
@@ -115,9 +143,7 @@ const AboutUsMain = () => {
             {`We'd love to hear from you.`}
           </p>
 
-          {/* Contact Grid */}
           <div className="flex items-center justify-center mt-12">
-            {/* Form */}
             <form
               onSubmit={handleContactSubmit}
               className="flex flex-col items-center gap-6 w-full md:w-[500px]"
