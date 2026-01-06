@@ -1,4 +1,3 @@
-"use client";
 import bg01 from "@/assets/images/home/categories/01.webp";
 import bg02 from "@/assets/images/home/categories/02.webp";
 import bg03 from "@/assets/images/home/categories/03.webp";
@@ -7,13 +6,12 @@ import bg05 from "@/assets/images/home/categories/05.webp";
 import bg06 from "@/assets/images/home/categories/06.webp";
 import bg07 from "@/assets/images/home/categories/07.webp";
 import { LocalFonts } from "@/components/common/fonts";
-import Image, { StaticImageData } from "next/image";
-import CategoryOptions from "./CategoryOptions";
-import { useState } from "react";
 import ShutterText from "@/components/animations/ShutterText";
 import OpacityTransition from "@/components/animations/OpacityTransition";
 import CommonButton from "@/components/common/CommonButton";
 import Link from "next/link";
+import CategoriesBackground from "./CategoriesBackground";
+import CategoryOptions from "./CategoryOptions";
 
 const Categories = () => {
   const lines = ["Explore", "Hobbies", "Together"];
@@ -28,52 +26,34 @@ const Categories = () => {
     { title: "SOCIAL", image: bg07 },
   ];
 
-  const [currentImg, setCurrentImg] = useState(categories[0].image);
-  const [fade, setFade] = useState(false);
-  const [transitionImg, setTransitionImg] = useState(categories[0].image);
+  // const [currentImg, setCurrentImg] = useState(categories[0].image);
+  // const [fade, setFade] = useState(false);
+  // const [transitionImg, setTransitionImg] = useState(categories[0].image);
 
-  const handleBgChange = (img: StaticImageData) => {
-    setTransitionImg(img);
+  // const handleBgChange = (img: StaticImageData) => {
+  //   setTransitionImg(img);
 
-    setFade(false);
+  //   setFade(false);
 
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setFade(true);
-      });
-    });
+  //   requestAnimationFrame(() => {
+  //     requestAnimationFrame(() => {
+  //       setFade(true);
+  //     });
+  //   });
 
-    setTimeout(() => {
-      setCurrentImg(img);
-      setFade(false);
-    }, 1600);
-  };
+  //   setTimeout(() => {
+  //     setCurrentImg(img);
+  //     setFade(false);
+  //   }, 1600);
+  // };
 
   return (
-    <div className="relative w-full h-[860px] md:h-[850px] lg:h-[1000px] overflow-hidden z-[500]">
-      <div className="absolute z-10 bg-gradient-to-r from-secondary1/40 to-secondary1/50 w-full h-full" />
-      <div className="relative w-full h-full overflow-hidden">
-        <Image
-          src={currentImg}
-          alt="bg"
-          fill
-          className="object-cover"
-          priority
-        />
-
-        <Image
-          src={transitionImg}
-          alt="transition"
-          fill
-          className={`object-cover transition-opacity duration-700 ease-in-out 
-      ${fade ? "opacity-100" : "opacity-0"}`}
-          priority
-        />
-      </div>
+    <div className="relative w-full h-[860px] md:h-[850px] lg:h-[1000px] overflow-hidden z-[500]  bg-secondary1">
+      <CategoriesBackground images={categories.map((c) => c.image)} />
 
       <div className="absolute z-10 bg-gradient-to-r from-secondary1/40 to-secondary1/50 w-full h-full" />
 
-      <CategoryOptions cards={categories} setActiveBg={handleBgChange} />
+      <CategoryOptions cards={categories} />
 
       <div
         className={`lg:bg-primary overflow-hidden absolute right-0 top-0 lg:h-full lg:w-[440px] xl:w-[550px] 2xl:w-[764px] z-30 container flex flex-col lg:justify-center gap-6 mt-10 lg:mt-0`}
