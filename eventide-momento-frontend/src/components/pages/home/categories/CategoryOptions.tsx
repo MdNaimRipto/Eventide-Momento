@@ -13,10 +13,9 @@ interface Card {
 
 interface CategoryOptionsProps {
   cards: Card[];
-  setActiveBg: (img: StaticImageData) => void;
 }
 
-const CategoryOptions = ({ cards, setActiveBg }: CategoryOptionsProps) => {
+const CategoryOptions = ({ cards }: CategoryOptionsProps) => {
   return (
     <div className="absolute top-[540px] md:top-[550px] lg:top-1/2 -translate-y-1/2 px-2 xl:pl-[16rem] 2xl:pl-0  lg:px-8 2xl:px-[45rem] left-0 w-full h-[500px] md:h-[400px] lg:h-[520px] z-10 overflow-visible">
       <Swiper
@@ -46,13 +45,14 @@ const CategoryOptions = ({ cards, setActiveBg }: CategoryOptionsProps) => {
             centeredSlides: true,
           },
         }}
+        onSlideChange={(swiper) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const setBg = (globalThis as any).__setCategoryBg;
+          if (setBg) setBg(swiper.realIndex);
+        }}
         loop={true}
         autoplay={{ delay: 2000, disableOnInteraction: false }}
         speed={1600}
-        onSlideChange={(swiper) => {
-          const activeLogicalIndex = (swiper.realIndex + 0) % cards.length;
-          setActiveBg(cards[activeLogicalIndex].image);
-        }}
         className="px-8 h-full"
         style={{ overflow: "visible" }}
       >
@@ -78,6 +78,8 @@ const CategoryOptions = ({ cards, setActiveBg }: CategoryOptionsProps) => {
                   src={card.image}
                   alt={card.title}
                   className="object-cover w-full h-full brightness-75"
+                  loading="lazy"
+                  placeholder="blur"
                 />
                 <div className="absolute bottom-12 left-4 xl:left-8 flex items-center gap-2">
                   <h6

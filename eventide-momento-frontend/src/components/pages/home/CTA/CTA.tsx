@@ -30,7 +30,8 @@ const CTA = () => {
         src={bg}
         alt="cta-background"
         className="w-full h-full object-cover absolute top-0 left-0"
-        priority
+        loading="lazy"
+        placeholder="blur"
       />
 
       {/* Dark overlay */}

@@ -1,13 +1,10 @@
-"use client";
-
 import host01 from "@/assets/images/home/persons/01.webp";
 import host02 from "@/assets/images/home/persons/02.webp";
 import host03 from "@/assets/images/home/persons/03.webp";
 import { LocalFonts } from "@/components/common/fonts";
 import Image from "next/image";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
 import ShutterText from "@/components/animations/ShutterText";
+import DynamicSwiper from "@/components/common/swiper/DynamicSwiper";
 
 const hosts = [
   { name: "Mason Carter", image: host01 },
@@ -28,9 +25,8 @@ const TopHosts = () => {
           <ShutterText key={i} text={line} delay={i * 0.3} />
         ))}
       </h1>
-      <Swiper
-        modules={[Autoplay]}
-        autoplay={{ delay: 2500, disableOnInteraction: false }}
+      <DynamicSwiper
+        autoplay
         speed={1200}
         loop={true}
         spaceBetween={20}
@@ -39,36 +35,38 @@ const TopHosts = () => {
           768: { slidesPerView: 2 },
           1024: { slidesPerView: 3, spaceBetween: 40 },
         }}
-        className="w-full h-full"
       >
         {hosts.map((host, index) => (
-          <SwiperSlide key={index}>
-            <div className="relative h-[500px] 2xl:h-[600px] overflow-hidden">
-              {/* Host Image */}
-              <Image
-                src={host.image}
-                alt={host.name}
-                fill
-                className="object-cover"
-              />
+          <div
+            key={index}
+            className="relative h-[500px] 2xl:h-[600px] overflow-hidden"
+          >
+            {/* Host Image */}
+            <Image
+              src={host.image}
+              alt={host.name}
+              fill
+              className="object-cover"
+              placeholder="blur"
+              loading="lazy"
+            />
 
-              {/* Rank Badge */}
-              <span
-                className={`absolute top-10 left-4 text-white ${LocalFonts.anton.className} text-8xl`}
-              >
-                {String(index + 1).padStart(2, "0")}
-              </span>
+            {/* Rank Badge */}
+            <span
+              className={`absolute top-10 left-4 text-white ${LocalFonts.anton.className} text-8xl`}
+            >
+              {String(index + 1).padStart(2, "0")}
+            </span>
 
-              {/* Host Name */}
-              <div
-                className={`absolute left-4 bottom-16 text-4xl ${LocalFonts.anton.className} text-primary`}
-              >
-                {host.name}
-              </div>
+            {/* Host Name */}
+            <div
+              className={`absolute left-4 bottom-16 text-4xl ${LocalFonts.anton.className} text-primary`}
+            >
+              {host.name}
             </div>
-          </SwiperSlide>
+          </div>
         ))}
-      </Swiper>
+      </DynamicSwiper>
     </div>
   );
 };
