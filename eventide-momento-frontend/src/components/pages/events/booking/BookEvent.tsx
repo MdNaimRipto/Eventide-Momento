@@ -27,9 +27,9 @@ const BookEvent = ({ event }: { event: IEvent }) => {
 
     const option = {
       data: {
-        userId: user?._id,
-        hostId: (event.hostId as unknown as IUser)?._id,
-        eventId: event._id,
+        userId: user?.id,
+        hostId: (event.hostId as unknown as IUser)?.id,
+        eventId: event.id,
         paidAmount: amount,
         currency: "bdt",
         email: user?.email,

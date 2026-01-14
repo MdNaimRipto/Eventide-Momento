@@ -62,7 +62,7 @@ const UpdateEvent = ({
 
     await postApiHandler({
       mutateFn: updateEvent,
-      options: { id: event._id, data: payload },
+      options: { id: event.id, data: payload },
       setIsLoading: setIsSubmitting,
       optionalTasksFn: () => {
         sessionStorage.removeItem(SESSION_KEY);

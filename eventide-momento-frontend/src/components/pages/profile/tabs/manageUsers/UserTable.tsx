@@ -49,9 +49,7 @@ const UserTable = () => {
       <TableBody>
         {users.map((user, i) => (
           <TableRow key={i}>
-            <TableCell className="font-medium">
-              {user._id.slice(0, 6)}
-            </TableCell>
+            <TableCell className="font-medium">{user.id.slice(0, 6)}</TableCell>
             <TableCell className="font-medium">
               <Image
                 src={user.profileImage}

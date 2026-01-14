@@ -13,7 +13,7 @@ export type eventCategoryEnums =
   | "SOCIAL";
 
 export interface IEvent {
-  _id: string;
+  id: string;
   hostId: string;
   eventName: string;
   description: string;
@@ -29,6 +29,12 @@ export interface IEvent {
   maxParticipants: number;
   createdAt: Date;
   updatedAt: Date;
+  host?: {
+    userName: "MD Naimur Rahman";
+    email: "host@gmail.com";
+    createdAt: "2026-01-14T11:35:01.195Z";
+    profileImage: "https://i.ibb.co/dcHVrp8/User-Profile-PNG-Image.png";
+  };
 }
 
 export interface IEventFilters {

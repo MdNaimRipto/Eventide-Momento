@@ -1,0 +1,32 @@
+model User {
+    id String @id @default(uuid())
+    userName String
+    email String @unique
+    contactNumber String @unique
+    password String
+    profileImage String @default("https://i.ibb.co/dcHVrp8/User-Profile-PNG-Image.png")
+    location String @default("Not Updated Yet!")
+    activeStatus Boolean @default(true)
+    IsFirstTimeUpdated Boolean @default(false)
+    role Role @default(USER)
+    bio String @default("Not Updated Yet!")
+    interests String[]
+    ratingCount Int @default(0)
+    ratingAvg Float @default(0)
+    accountStatus AccountStatus @default(ACTIVE) 
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    events Event[]
+    reviews Review[] @relation("reviews")
+}
+
+enum Role {
+    USER
+    ADMIN
+    HOST
+}
+
+enum AccountStatus {
+    ACTIVE
+    FREEZE
+}

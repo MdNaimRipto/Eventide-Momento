@@ -11,7 +11,7 @@ const UpcomingEvents = () => {
   const orders = data?.data as IOrder[];
 
   const orderEvents = orders.map((order) => ({
-    ...order.eventId,
+    ...order.event,
     entryFee: order.paidAmount,
   }));
 

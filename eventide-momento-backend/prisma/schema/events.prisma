@@ -1,0 +1,37 @@
+model Event {
+  id String @id @default(uuid())
+  hostId String
+  host User @relation(fields: [hostId], references: [id])
+  eventName String
+  description String
+  eventDate DateTime
+  category EventCategory
+  status EventStatus @default(UPCOMING)
+  entryFee Int @default(0)
+  totalParticipants Int @default(0)
+  detailedInformations String[]
+  location String
+  banner String
+  minParticipants Int @default(0)
+  maxParticipants Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders Order[]
+}
+
+enum EventCategory {
+  SPORTS
+  MUSIC
+  TECHNOLOGY
+  BUSINESS
+  ARTS
+  EDUCATION
+  SOCIAL
+}
+
+enum EventStatus {
+  UPCOMING
+  ONGOING
+  COMPLETED
+  CANCELED
+}
