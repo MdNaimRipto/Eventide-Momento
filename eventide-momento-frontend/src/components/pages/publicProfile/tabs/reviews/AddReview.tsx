@@ -31,7 +31,7 @@ const AddReview = ({ id }: { id: string }) => {
     } = {
       data: {
         hostId: id,
-        userId: String(user?._id),
+        userId: String(user?.id),
         rating: rating,
         review: review,
       },

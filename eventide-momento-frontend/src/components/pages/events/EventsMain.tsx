@@ -1,7 +1,6 @@
 "use client";
 import EventCard from "@/components/common/cards/EventCard";
 import EventHeaderSection from "./EventHeaderSection";
-import Loader from "@/components/common/Loader";
 import { IEvent } from "@/types/eventTypes";
 import { useGetAllEventsQuery } from "@/redux/features/eventApis";
 import { useSearchParams } from "next/navigation";

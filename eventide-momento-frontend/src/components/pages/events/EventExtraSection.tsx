@@ -1,12 +1,11 @@
 import CommonButton from "@/components/common/CommonButton";
 import { LocalFonts } from "@/components/common/fonts";
 import { IEvent } from "@/types/eventTypes";
-import { IUser } from "@/types/userTypes";
 import Image from "next/image";
 import Link from "next/link";
 
 const EventExtraSection = ({ event }: { event: IEvent }) => {
-  const host = event.hostId as unknown as IUser; // populated host
+  const host = event.host; // populated host
 
   return (
     <div className="container mx-auto px-4 md:px-12 lg:px-24 mt-28 pb-20">
@@ -55,8 +54,8 @@ const EventExtraSection = ({ event }: { event: IEvent }) => {
               {/* Avatar */}
               <div className="w-20 h-20 rounded-full overflow-hidden bg-secondary1/20 mb-4">
                 <Image
-                  src={host.profileImage || "https://github.com/shadcn.png"}
-                  alt={host.userName || "Host"}
+                  src={host?.profileImage || "https://github.com/shadcn.png"}
+                  alt={host?.userName || "Host"}
                   width={120}
                   height={120}
                   className="object-cover w-full h-full"
@@ -65,23 +64,23 @@ const EventExtraSection = ({ event }: { event: IEvent }) => {
 
               {/* Host Name */}
               <p className="text-secondary1 font-semibold text-xl">
-                {host.userName || "Anonymous"}
+                {host?.userName || "Anonymous"}
               </p>
 
               {/* Email */}
               <p className="text-secondary1/70 text-sm mt-1">
-                {host.email || "Not provided"}
+                {host?.email || "Not provided"}
               </p>
 
               {/* Member Since */}
               <p className="text-secondary1/60 text-xs mt-2 tracking-wide uppercase">
                 Member since{" "}
-                {host.createdAt
+                {host?.createdAt
                   ? new Date(host.createdAt).getFullYear()
                   : "N/A"}
               </p>
 
-              <Link href={`/public-profile/${host._id}`} className="mt-4">
+              <Link href={`/public-profile/${event.hostId}`} className="mt-4">
                 <CommonButton title="View Profile" />
               </Link>
             </div>

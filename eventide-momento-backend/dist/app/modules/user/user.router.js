@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UserRouter = void 0;
+const express_1 = __importDefault(require("express"));
+const user_controller_1 = require("./user.controller");
+const zodValidationRequest_1 = __importDefault(require("../../../middlewares/zodValidationRequest"));
+const user_validation_1 = require("./user.validation");
+const router = express_1.default.Router();
+router.post("/register", (0, zodValidationRequest_1.default)(user_validation_1.UserValidation.usersZodSchema), user_controller_1.UserController.register);
+router.post("/login", (0, zodValidationRequest_1.default)(user_validation_1.UserValidation.loginUserZodSchema), user_controller_1.UserController.login);
+router.get("/me", user_controller_1.UserController.getMe);
+router.post("/logout", user_controller_1.UserController.logout);
+router.patch("/updateUser", (0, zodValidationRequest_1.default)(user_validation_1.UserValidation.userUpdateZodSchema), user_controller_1.UserController.updatedUser);
+router.patch("/updatePassword", (0, zodValidationRequest_1.default)(user_validation_1.UserValidation.updatePasswordZodSchema), user_controller_1.UserController.updatePassword);
+router.get("/getAllUsers", user_controller_1.UserController.getAllUsers);
+router.delete("/deleteUser", user_controller_1.UserController.deleteUser);
+router.get("/getPublicProfile/:id", user_controller_1.UserController.getPublicProfile);
+exports.UserRouter = router;

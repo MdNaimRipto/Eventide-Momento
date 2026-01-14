@@ -41,7 +41,7 @@ const EventsTable = () => {
     searchTerm,
     category,
     status,
-    hostId: user?._id,
+    hostId: user?.id,
   });
 
   const [deleteEvent] = useDeleteEventMutation();
@@ -70,8 +70,8 @@ const EventsTable = () => {
 
         <TableBody>
           {events.map((event, i) => (
-            <TableRow key={event._id || i}>
-              <TableCell>{event._id?.slice(0, 6) || i}</TableCell>
+            <TableRow key={event.id || i}>
+              <TableCell>{event.id?.slice(0, 6) || i}</TableCell>
               <TableCell>{event.eventName}</TableCell>
               <TableCell>
                 {event.eventDate
@@ -175,7 +175,7 @@ const EventsTable = () => {
                     if (!confirmed) return;
                     await postApiHandler({
                       mutateFn: deleteEvent,
-                      options: event._id,
+                      options: event.id,
                       setIsLoading: setIsDeleting,
                       optionalTasksFn: () => {
                         // clear selection if deleted

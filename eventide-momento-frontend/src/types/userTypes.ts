@@ -2,7 +2,7 @@ export type roleEnums = "USER" | "ADMIN" | "HOST";
 export type accountStatusEnums = "ACTIVE" | "FREEZE";
 
 export interface IUser {
-  _id: string;
+  id: string;
   userName: string;
   email: string;
   contactNumber: string;

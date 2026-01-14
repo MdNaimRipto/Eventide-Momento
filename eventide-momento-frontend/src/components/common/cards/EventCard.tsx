@@ -83,7 +83,7 @@ const EventCard = ({ event }: { event: IEvent }) => {
 
           {/* Button */}
           <Link
-            href={`/events/${event._id}`}
+            href={`/events/${event.id}`}
             scroll={true}
             className="scale-90 md:scale-100 -mr-4 md:-mr-0"
           >

@@ -1,5 +1,5 @@
 export const apiConfig = {
-  BASE_URL: "https://assignment-08-backend.vercel.app/v1.0.0/apis",
+  BASE_URL: "https://eventide-momento-backend.vercel.app/v1.0.0/apis",
   // BASE_URL: "http://localhost:5000/v1.0.0/apis",
   USER: {
     REGISTER: "/users/register", // Done
@@ -21,9 +21,9 @@ export const apiConfig = {
   },
   ORDER: {
     ORDER: "/payment/createPaymentLink", // Done
-    GET_ALL: "/order/getAllOrders", // Done
-    GET_USER: "/order/getUserOrders", // Done
-    OVERVIEW: "/order/getOrdersOverview",
+    GET_ALL: "/orders/getAllOrders", // Done
+    GET_USER: "/orders/getUserOrders", // Done
+    OVERVIEW: "/orders/getOrdersOverview",
   },
   REVIEWS: {
     ADD: "/reviews",
