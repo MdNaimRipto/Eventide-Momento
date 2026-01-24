@@ -26,27 +26,6 @@ const Categories = () => {
     { title: "SOCIAL", image: bg07 },
   ];
 
-  // const [currentImg, setCurrentImg] = useState(categories[0].image);
-  // const [fade, setFade] = useState(false);
-  // const [transitionImg, setTransitionImg] = useState(categories[0].image);
-
-  // const handleBgChange = (img: StaticImageData) => {
-  //   setTransitionImg(img);
-
-  //   setFade(false);
-
-  //   requestAnimationFrame(() => {
-  //     requestAnimationFrame(() => {
-  //       setFade(true);
-  //     });
-  //   });
-
-  //   setTimeout(() => {
-  //     setCurrentImg(img);
-  //     setFade(false);
-  //   }, 1600);
-  // };
-
   return (
     <div className="relative w-full h-[860px] md:h-[850px] lg:h-[1000px] overflow-hidden z-[500]  bg-secondary1">
       <CategoriesBackground images={categories.map((c) => c.image)} />

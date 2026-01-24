@@ -1,28 +1,33 @@
+import { Suspense } from "react";
 import Banner from "./banner/Banner";
-import Categories from "./categories/Categories";
-import CTA from "./CTA/CTA";
 import HowItWorks from "./howItWorks/HowItWorks";
-import Memories from "./memories/Memories";
-import Reviews from "./reviews/Reviews";
+import Categories from "./categories/Categories";
+import UpcomingEvents from "./upcomingEvents/UpcomingEvents";
 import Stats from "./stats/Stats";
 import TopHosts from "./topHosts/TopHosts";
-import UpcomingEvents from "./upcomingEvents/UpcomingEvents";
+import Memories from "./memories/Memories";
+import CTA from "./CTA/CTA";
+import Reviews from "./reviews/Reviews";
 
-const HomeMain = () => {
+export default function HomeMain() {
   return (
     <div className="bg-primary">
       <Banner />
-      <HowItWorks />
-      <Categories />
-      <UpcomingEvents />
+
+      <Suspense fallback={null}>
+        <HowItWorks />
+        <Categories />
+        <UpcomingEvents />
+      </Suspense>
+
       <Stats />
-      {/* <Blogs /> */}
       <TopHosts />
       <Memories />
-      <Reviews />
-      <CTA />
+
+      <Suspense fallback={null}>
+        <Reviews />
+        <CTA />
+      </Suspense>
     </div>
   );
-};
-
-export default HomeMain;
+}
