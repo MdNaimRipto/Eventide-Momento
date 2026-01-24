@@ -12,7 +12,6 @@ const hosts = [
   { name: "Riley Turner", image: host03 },
 ];
 
-// const lines = ["Meet", "With Our", "Top Hosts"];
 const lines = ["Meet", "Our Finest", "Top Event Hosts"];
 
 const TopHosts = () => {

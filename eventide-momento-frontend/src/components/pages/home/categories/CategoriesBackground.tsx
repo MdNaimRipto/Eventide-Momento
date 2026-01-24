@@ -27,7 +27,7 @@ export default function CategoriesBackground({ images }: Props) {
           className={`object-cover transition-opacity duration-700 ease-in-out ${
             i === activeIndex ? "opacity-100" : "opacity-0"
           }`}
-          loading="lazy"
+          priority
           placeholder="blur"
         />
       ))}
