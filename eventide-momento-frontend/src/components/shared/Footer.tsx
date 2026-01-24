@@ -17,7 +17,7 @@ const Footer = () => {
     <div className="bg-secondary1 w-full h-[580px] md:h-[480px] xl:h-[550px] flex flex-col justify-between relative z-[650]">
       <div className="container relative p-6 xl:p-16 overflow-hidden">
         <h1
-          className={`text-6xl md:text-[160px] xl:text-[280px] tracking-widest xl:-mt-10 text-center uppercase text-white ${LocalFonts.anton.className} !whitespace-nowrap`}
+          className={`relative text-6xl md:text-[160px] xl:text-[280px] tracking-widest xl:-mt-10 text-center uppercase text-white ${LocalFonts.anton.className} !whitespace-nowrap`}
         >
           <ShutterText text={"Eventide"} delay={0} />
           <div className="absolute top-0 left-0 w-full h-full z-50 bg-gradient-to-b from-secondary1/10 to-secondary1/70" />
@@ -36,7 +36,7 @@ const Footer = () => {
           </div>
 
           {/* Navigation */}
-          <div className="flex flex-col md:flex-row md:flex-wrap justify-center w-full md:w-[240px] lg:w-auto md:justify-start gap-4">
+          <div className="flex flex-col md:flex-row md:flex-wrap justify-center w-full md:w-[240px] lg:w-auto md:justify-start gap-4 relative">
             {menuItems.map((menu, idx) => (
               <Link
                 key={idx}
