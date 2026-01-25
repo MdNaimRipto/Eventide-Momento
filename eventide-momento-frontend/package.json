@@ -26,7 +26,7 @@
     "gsap": "^3.13.0",
     "hamburger-react": "^2.5.2",
     "lucide-react": "^0.555.0",
-    "next": "16.0.7",
+    "next": "16.0.10",
     "radix-ui": "^1.4.3",
     "react": "19.2.1",
     "react-dom": "19.2.1",
