@@ -10,20 +10,20 @@ interface ShutterTextProps {
 }
 
 const ShutterText: React.FC<ShutterTextProps> = ({ text, delay = 0 }) => {
-  const ref = useRef<HTMLSpanElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, {
     once: true,
     margin: "-50px",
   });
 
   return (
-    <span ref={ref}>
+    <div ref={ref}>
       {isInView && (
         <TextEffect per="char" preset="slide" delay={delay} speedSegment={0.5}>
           {text}
         </TextEffect>
       )}
-    </span>
+    </div>
   );
 };
 
