@@ -5,6 +5,7 @@ import Image, { StaticImageData } from "next/image";
 import { Autoplay } from "swiper/modules";
 import { LocalFonts } from "@/components/common/fonts";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
 interface Card {
   title: string;
@@ -16,9 +17,52 @@ interface CategoryOptionsProps {
 }
 
 const CategoryOptions = ({ cards }: CategoryOptionsProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const swiperRef = useRef<any>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [autoplay, setAutoplay] = useState(false);
+
+  // 👀 Track visibility of section
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        setIsVisible(entry.isIntersecting);
+        setAutoplay(entry.isIntersecting);
+      },
+      {
+        threshold: 0.3, // Start when 30% of Swiper is visible
+      },
+    );
+
+    if (containerRef.current) observer.observe(containerRef.current);
+
+    return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      if (containerRef.current) observer.unobserve(containerRef.current);
+    };
+  }, []);
+
+  // 🎬 Control autoplay start/stop based on visibility
+  useEffect(() => {
+    const swiper = swiperRef.current?.swiper;
+    if (!swiper || !autoplay) return;
+
+    if (isVisible) {
+      swiper.autoplay.start();
+    } else {
+      swiper.autoplay.stop();
+    }
+  }, [isVisible, autoplay]);
+
   return (
-    <div className="absolute top-[540px] md:top-[550px] lg:top-1/2 -translate-y-1/2 px-2 xl:pl-[16rem] 2xl:pl-0  lg:px-8 2xl:px-[45rem] left-0 w-full h-[500px] md:h-[400px] lg:h-[520px] z-10 overflow-visible">
+    <div
+      ref={containerRef}
+      className="absolute top-[540px] md:top-[550px] lg:top-1/2 -translate-y-1/2 px-2 xl:pl-[16rem] 2xl:pl-0  lg:px-8 2xl:px-[45rem] left-0 w-full h-[500px] md:h-[400px] lg:h-[520px] z-10 overflow-visible"
+    >
       <Swiper
+        ref={swiperRef}
         modules={[Autoplay]}
         slidesPerView={1}
         spaceBetween={40}
@@ -51,7 +95,16 @@ const CategoryOptions = ({ cards }: CategoryOptionsProps) => {
           if (setBg) setBg(swiper.realIndex);
         }}
         loop={true}
-        autoplay={{ delay: 2000, disableOnInteraction: false }}
+        autoplay={
+          autoplay
+            ? {
+                delay: 3000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+                stopOnLastSlide: false,
+              }
+            : false
+        }
         speed={1600}
         className="px-8 h-full"
         style={{ overflow: "visible" }}

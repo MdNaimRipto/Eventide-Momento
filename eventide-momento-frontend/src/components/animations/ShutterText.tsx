@@ -1,5 +1,6 @@
 "use client";
-import { motion, Variants } from "framer-motion";
+
+import { TextEffect } from "@/components/animations/text-effect";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
 
@@ -9,42 +10,20 @@ interface ShutterTextProps {
 }
 
 const ShutterText: React.FC<ShutterTextProps> = ({ text, delay = 0 }) => {
-  const letters = text.split("");
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" }); // triggers when section enters view
-
-  const container: Variants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.05,
-        delayChildren: delay,
-      },
-    },
-  };
-
-  const letter: Variants = {
-    hidden: { x: "-100%", opacity: 0 },
-    visible: {
-      x: "0%",
-      opacity: 1,
-      transition: { type: "spring" as const, stiffness: 120, damping: 20 },
-    },
-  };
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, {
+    once: true,
+    margin: "-50px",
+  });
 
   return (
-    <motion.div
-      ref={ref}
-      variants={container}
-      initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
-    >
-      {letters.map((char, i) => (
-        <motion.span key={i} variants={letter} className="inline-block">
-          {char === " " ? "\u00A0" : char}
-        </motion.span>
-      ))}
-    </motion.div>
+    <span ref={ref}>
+      {isInView && (
+        <TextEffect per="char" preset="slide" delay={delay} speedSegment={0.5}>
+          {text}
+        </TextEffect>
+      )}
+    </span>
   );
 };
 

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
@@ -35,7 +35,7 @@ const DynamicSwiper = ({
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => setIsVisible(entries[0].isIntersecting),
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
 
     if (containerRef.current) observer.observe(containerRef.current);
