@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { LocalFonts } from "@/components/common/fonts";
-import ViewerClient from "./Viewer";
 
 import img1 from "@/assets/images/home/memories/1.webp";
 import img2 from "@/assets/images/home/memories/2.webp";
@@ -67,9 +66,6 @@ export default function Memories() {
           </div>
         ))}
       </div>
-
-      {/* Client-only interactive island */}
-      <ViewerClient images={images} />
     </section>
   );
 }
