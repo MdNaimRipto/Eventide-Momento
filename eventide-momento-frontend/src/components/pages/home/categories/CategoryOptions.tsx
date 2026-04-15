@@ -4,12 +4,7 @@ import Image, { StaticImageData } from "next/image";
 import { LocalFonts } from "@/components/common/fonts";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  animate,
-  motion,
-  PanInfo,
-  useMotionValue,
-} from "framer-motion";
+import { motion, useAnimationFrame, useMotionValue } from "framer-motion";
 
 interface Card {
   title: string;
@@ -21,136 +16,86 @@ interface CategoryOptionsProps {
 }
 
 const GAP = 40;
-const AUTOPLAY_DELAY = 3000;
-const SLIDE_DURATION = 1.6;
-const DRAG_VELOCITY_THRESHOLD = 500;
+const SPEED_PX_PER_SEC = 55;
 
-const getLayout = (width: number) => {
-  if (width >= 1800) return { perView: 3, centered: true };
-  if (width >= 1024) return { perView: 3, centered: false };
-  if (width >= 768) return { perView: 2, centered: true };
-  return { perView: 1, centered: true };
+const getPerView = (width: number) => {
+  if (width >= 1024) return 3;
+  if (width >= 768) return 2;
+  return 1;
 };
 
 const CategoryOptions = ({ cards }: CategoryOptionsProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
+  const [hoveredKey, setHoveredKey] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [perView, setPerView] = useState(1);
-  const [centered, setCentered] = useState(true);
   const [slideWidth, setSlideWidth] = useState(0);
-  const [index, setIndex] = useState(0);
-  const [animTick, setAnimTick] = useState(0);
   const x = useMotionValue(0);
 
-  const extended = [...cards, ...cards.slice(0, 3)];
+  const tripled = [...cards, ...cards, ...cards];
   const step = slideWidth + GAP;
-  const dragMin = -(cards.length * step);
+  const trackWidth = cards.length * step;
 
-  const measure = useCallback((node: HTMLDivElement | null) => {
-    trackRef.current = node;
-    if (!node) return;
-    const { perView: pv, centered: c } = getLayout(window.innerWidth);
-    const sw = (node.offsetWidth - GAP * (pv - 1)) / pv;
-    setPerView(pv);
-    setCentered(c);
-    setSlideWidth(sw);
-  }, []);
+  const measure = useCallback(
+    (node: HTMLDivElement | null) => {
+      trackRef.current = node;
+      if (!node) return;
+      const pv = getPerView(window.innerWidth);
+      const sw = (node.offsetWidth - GAP * (pv - 1)) / pv;
+      setPerView(pv);
+      setSlideWidth(sw);
+      x.set(-(cards.length * (sw + GAP)));
+    },
+    [cards.length, x],
+  );
 
   useEffect(() => {
     const onResize = () => {
       if (!trackRef.current) return;
-      const { perView: pv, centered: c } = getLayout(window.innerWidth);
+      const pv = getPerView(window.innerWidth);
       const sw = (trackRef.current.offsetWidth - GAP * (pv - 1)) / pv;
       setPerView(pv);
-      setCentered(c);
       setSlideWidth(sw);
+      x.set(-(cards.length * (sw + GAP)));
     };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-  }, []);
+  }, [cards.length, x]);
 
-  useEffect(() => {
-    const node = containerRef.current;
-    if (!node) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsVisible(entry.isIntersecting),
-      { threshold: 0.3 },
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, []);
+  // Pause when ANY card is hovered, or while dragging
+  const isPaused = hoveredKey !== null;
 
-  useEffect(() => {
-    if (slideWidth === 0) return;
-    const target = -(index * step);
-    const controls = animate(x, target, {
-      duration: SLIDE_DURATION,
-      ease: [0.25, 0.1, 0.25, 1],
-      onComplete: () => {
-        if (index >= cards.length) {
-          x.set(0);
-          setIndex(0);
-        }
-      },
-    });
-    return () => controls.stop();
-  }, [index, slideWidth, step, cards.length, x, animTick]);
+  useAnimationFrame((_, delta) => {
+    if (isPaused || isDragging || slideWidth === 0 || trackWidth === 0) return;
+    const dx = (SPEED_PX_PER_SEC * delta) / 1000;
+    let newX = x.get() - dx;
+    if (newX < -2 * trackWidth) newX += trackWidth;
+    x.set(newX);
+  });
 
-  useEffect(() => {
-    if (!isVisible || isHovered || isDragging || slideWidth === 0) return;
-    const timer = window.setTimeout(() => {
-      setIndex((prev) => prev + 1);
-    }, AUTOPLAY_DELAY);
-    return () => window.clearTimeout(timer);
-  }, [index, isVisible, isHovered, isDragging, slideWidth]);
-
-  const realIndex = ((index % cards.length) + cards.length) % cards.length;
-  const activeOffset = centered && perView >= 3 ? Math.floor(perView / 2) : 0;
-  const activeIdx = (realIndex + activeOffset) % cards.length;
-
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const setBg = (globalThis as any).__setCategoryBg;
-    if (setBg) setBg(activeIdx);
-  }, [activeIdx]);
-
-  const handleDragEnd = (
-    _: MouseEvent | TouchEvent | PointerEvent,
-    info: PanInfo,
-  ) => {
+  const handleDragEnd = () => {
     setIsDragging(false);
-    if (slideWidth === 0) return;
-
-    const currentX = x.get();
-    const rawIndex = -currentX / step;
-    const velocity = info.velocity.x;
-
-    let newIndex: number;
-    if (velocity < -DRAG_VELOCITY_THRESHOLD) {
-      newIndex = Math.ceil(rawIndex);
-    } else if (velocity > DRAG_VELOCITY_THRESHOLD) {
-      newIndex = Math.floor(rawIndex);
-    } else {
-      newIndex = Math.round(rawIndex);
-    }
-
-    newIndex = Math.max(0, Math.min(newIndex, cards.length));
-
-    if (newIndex === index) {
-      setAnimTick((t) => t + 1);
-    } else {
-      setIndex(newIndex);
-    }
+    if (trackWidth === 0) return;
+    let v = x.get();
+    while (v < -2 * trackWidth) v += trackWidth;
+    while (v > 0) v -= trackWidth;
+    x.set(v);
   };
+
+  // React synthetic stopPropagation fires too late to beat framer-motion's
+  // native pointerdown listener, so we attach a native listener directly.
+  const stopDragPropagation = useCallback((node: HTMLDivElement | null) => {
+    if (!node) return;
+    const stop = (e: Event) => e.stopPropagation();
+    node.addEventListener("pointerdown", stop);
+    node.addEventListener("mousedown", stop);
+    node.addEventListener("touchstart", stop);
+  }, []);
 
   return (
     <div
       ref={containerRef}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       className="absolute top-[540px] md:top-[550px] lg:top-1/2 -translate-y-1/2 px-2 xl:pl-[16rem] 2xl:pl-0  lg:px-8 2xl:px-[45rem] left-0 w-full h-[500px] md:h-[400px] lg:h-[520px] z-10"
     >
       <div
@@ -167,16 +112,15 @@ const CategoryOptions = ({ cards }: CategoryOptionsProps) => {
           }}
           className="flex h-full select-none"
           drag={slideWidth > 0 ? "x" : false}
-          dragConstraints={{ left: dragMin, right: 0 }}
-          dragElastic={0.15}
+          dragConstraints={{ left: -2 * trackWidth, right: 0 }}
+          dragElastic={0.12}
           dragMomentum={false}
           dragDirectionLock
           onDragStart={() => setIsDragging(true)}
           onDragEnd={handleDragEnd}
         >
-          {extended.map((card, i) => {
-            const cardRealIdx = i % cards.length;
-            const isActive = cardRealIdx === activeIdx;
+          {tripled.map((card, i) => {
+            const isHovered = hoveredKey === i;
             return (
               <div
                 key={i}
@@ -190,10 +134,14 @@ const CategoryOptions = ({ cards }: CategoryOptionsProps) => {
                   href={`/events?category=${card.title}`}
                   draggable={false}
                   onDragStart={(e) => e.preventDefault()}
+                  onMouseEnter={() => setHoveredKey(i)}
+                  onMouseLeave={() =>
+                    setHoveredKey((h) => (h === i ? null : h))
+                  }
                   className={`block relative overflow-hidden w-full h-full rounded-xl transition-all duration-700 ${
-                    isActive
+                    isHovered
                       ? "border-4 border-secondary2 lg:scale-105 z-20"
-                      : "z-10 border-none"
+                      : "z-10"
                   }`}
                 >
                   <Image
@@ -204,7 +152,10 @@ const CategoryOptions = ({ cards }: CategoryOptionsProps) => {
                     placeholder="blur"
                     draggable={false}
                   />
-                  <div className="absolute bottom-12 left-4 xl:left-8 flex items-center gap-2">
+                  <div
+                    ref={stopDragPropagation}
+                    className="absolute bottom-12 left-4 xl:left-8 flex items-center gap-2"
+                  >
                     <h6
                       className={`${LocalFonts.anton.className} text-primary text-2xl xl:text-3xl`}
                     >
@@ -212,7 +163,7 @@ const CategoryOptions = ({ cards }: CategoryOptionsProps) => {
                     </h6>
                     <FaExternalLinkAlt
                       className={`${
-                        isActive ? "group-hover:opacity-100" : "opacity-0"
+                        isHovered ? "opacity-100" : "opacity-0"
                       } duration-700 text-3xl mb-[1px] text-white`}
                     />
                   </div>
