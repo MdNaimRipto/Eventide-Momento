@@ -13,12 +13,16 @@ async function getUpcomingEvents(): Promise<IEvent[]> {
     { cache: "force-cache" },
   );
 
+  console.log({ res });
+
   const json = await res.json();
   return json?.data?.data ?? [];
 }
 
 const UpcomingEvents = async () => {
   const events = await getUpcomingEvents();
+
+  console.log({ events });
 
   return (
     <div className="container pb-16 px-2 md:px-4 xl:px-16 mt-16">
