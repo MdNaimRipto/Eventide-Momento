@@ -4,7 +4,12 @@ import Image, { StaticImageData } from "next/image";
 import { LocalFonts } from "@/components/common/fonts";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { animate, motion, useMotionValue } from "framer-motion";
+import {
+  animate,
+  motion,
+  PanInfo,
+  useMotionValue,
+} from "framer-motion";
 
 interface Card {
   title: string;
@@ -18,6 +23,7 @@ interface CategoryOptionsProps {
 const GAP = 40;
 const AUTOPLAY_DELAY = 3000;
 const SLIDE_DURATION = 1.6;
+const DRAG_VELOCITY_THRESHOLD = 500;
 
 const getLayout = (width: number) => {
   if (width >= 1800) return { perView: 3, centered: true };
@@ -31,13 +37,17 @@ const CategoryOptions = ({ cards }: CategoryOptionsProps) => {
   const trackRef = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
   const [perView, setPerView] = useState(1);
   const [centered, setCentered] = useState(true);
   const [slideWidth, setSlideWidth] = useState(0);
   const [index, setIndex] = useState(0);
+  const [animTick, setAnimTick] = useState(0);
   const x = useMotionValue(0);
 
   const extended = [...cards, ...cards.slice(0, 3)];
+  const step = slideWidth + GAP;
+  const dragMin = -(cards.length * step);
 
   const measure = useCallback((node: HTMLDivElement | null) => {
     trackRef.current = node;
@@ -75,7 +85,7 @@ const CategoryOptions = ({ cards }: CategoryOptionsProps) => {
 
   useEffect(() => {
     if (slideWidth === 0) return;
-    const target = -(index * (slideWidth + GAP));
+    const target = -(index * step);
     const controls = animate(x, target, {
       duration: SLIDE_DURATION,
       ease: [0.25, 0.1, 0.25, 1],
@@ -87,15 +97,15 @@ const CategoryOptions = ({ cards }: CategoryOptionsProps) => {
       },
     });
     return () => controls.stop();
-  }, [index, slideWidth, cards.length, x]);
+  }, [index, slideWidth, step, cards.length, x, animTick]);
 
   useEffect(() => {
-    if (!isVisible || isHovered || slideWidth === 0) return;
+    if (!isVisible || isHovered || isDragging || slideWidth === 0) return;
     const timer = window.setTimeout(() => {
       setIndex((prev) => prev + 1);
     }, AUTOPLAY_DELAY);
     return () => window.clearTimeout(timer);
-  }, [index, isVisible, isHovered, slideWidth]);
+  }, [index, isVisible, isHovered, isDragging, slideWidth]);
 
   const realIndex = ((index % cards.length) + cards.length) % cards.length;
   const activeOffset = centered && perView >= 3 ? Math.floor(perView / 2) : 0;
@@ -107,25 +117,66 @@ const CategoryOptions = ({ cards }: CategoryOptionsProps) => {
     if (setBg) setBg(activeIdx);
   }, [activeIdx]);
 
+  const handleDragEnd = (
+    _: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo,
+  ) => {
+    setIsDragging(false);
+    if (slideWidth === 0) return;
+
+    const currentX = x.get();
+    const rawIndex = -currentX / step;
+    const velocity = info.velocity.x;
+
+    let newIndex: number;
+    if (velocity < -DRAG_VELOCITY_THRESHOLD) {
+      newIndex = Math.ceil(rawIndex);
+    } else if (velocity > DRAG_VELOCITY_THRESHOLD) {
+      newIndex = Math.floor(rawIndex);
+    } else {
+      newIndex = Math.round(rawIndex);
+    }
+
+    newIndex = Math.max(0, Math.min(newIndex, cards.length));
+
+    if (newIndex === index) {
+      setAnimTick((t) => t + 1);
+    } else {
+      setIndex(newIndex);
+    }
+  };
+
   return (
     <div
       ref={containerRef}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="absolute top-[540px] md:top-[550px] lg:top-1/2 -translate-y-1/2 px-2 xl:pl-[16rem] 2xl:pl-0  lg:px-8 2xl:px-[45rem] left-0 w-full h-[500px] md:h-[400px] lg:h-[520px] z-10 overflow-visible"
+      className="absolute top-[540px] md:top-[550px] lg:top-1/2 -translate-y-1/2 px-2 xl:pl-[16rem] 2xl:pl-0  lg:px-8 2xl:px-[45rem] left-0 w-full h-[500px] md:h-[400px] lg:h-[520px] z-10"
     >
-      <div ref={measure} className="relative w-full h-full overflow-visible">
+      <div
+        ref={measure}
+        className="relative w-full h-full overflow-hidden lg:overflow-visible"
+      >
         <motion.div
-          style={{ x, willChange: "transform" }}
-          className="flex h-full gap-10"
+          style={{
+            x,
+            gap: `${GAP}px`,
+            willChange: "transform",
+            cursor: slideWidth > 0 ? (isDragging ? "grabbing" : "grab") : "default",
+            touchAction: "pan-y",
+          }}
+          className="flex h-full select-none"
+          drag={slideWidth > 0 ? "x" : false}
+          dragConstraints={{ left: dragMin, right: 0 }}
+          dragElastic={0.15}
+          dragMomentum={false}
+          dragDirectionLock
+          onDragStart={() => setIsDragging(true)}
+          onDragEnd={handleDragEnd}
         >
           {extended.map((card, i) => {
             const cardRealIdx = i % cards.length;
             const isActive = cardRealIdx === activeIdx;
-            const isPrev =
-              cardRealIdx === (activeIdx - 1 + cards.length) % cards.length;
-            const isNext =
-              cardRealIdx === (activeIdx + 1) % cards.length;
             return (
               <div
                 key={i}
@@ -137,25 +188,21 @@ const CategoryOptions = ({ cards }: CategoryOptionsProps) => {
               >
                 <Link
                   href={`/events?category=${card.title}`}
-                  className={`block relative overflow-hidden w-full h-full rounded-xl transition-all duration-700
-                    ${
-                      isActive
-                        ? "border-4 border-secondary2 md:scale-105 z-20"
-                        : ""
-                    }
-                    ${
-                      isPrev || isNext
-                        ? "scale-90 lg:scale-100 z-10 border-none"
-                        : ""
-                    }
-                  `}
+                  draggable={false}
+                  onDragStart={(e) => e.preventDefault()}
+                  className={`block relative overflow-hidden w-full h-full rounded-xl transition-all duration-700 ${
+                    isActive
+                      ? "border-4 border-secondary2 lg:scale-105 z-20"
+                      : "z-10 border-none"
+                  }`}
                 >
                   <Image
                     src={card.image}
                     alt={card.title}
-                    className="object-cover w-full h-full brightness-75"
+                    className="object-cover w-full h-full brightness-75 pointer-events-none"
                     loading="lazy"
                     placeholder="blur"
+                    draggable={false}
                   />
                   <div className="absolute bottom-12 left-4 xl:left-8 flex items-center gap-2">
                     <h6
