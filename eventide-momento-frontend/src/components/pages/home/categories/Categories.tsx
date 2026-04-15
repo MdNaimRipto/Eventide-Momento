@@ -10,7 +10,6 @@ import ShutterText from "@/components/animations/ShutterText";
 import OpacityTransition from "@/components/animations/OpacityTransition";
 import CommonButton from "@/components/common/CommonButton";
 import Link from "next/link";
-import CategoriesBackground from "./CategoriesBackground";
 import CategoryOptions from "./CategoryOptions";
 
 const Categories = () => {
@@ -27,11 +26,7 @@ const Categories = () => {
   ];
 
   return (
-    <div className="relative w-full h-[860px] md:h-[850px] lg:h-[1000px] overflow-hidden z-[500]  bg-secondary1">
-      <CategoriesBackground images={categories.map((c) => c.image)} />
-
-      <div className="absolute z-10 bg-gradient-to-r from-secondary1/40 to-secondary1/50 w-full h-full" />
-
+    <div className="relative w-full h-[860px] md:h-[850px] lg:h-[1000px] overflow-hidden z-[500] bg-secondary1">
       <CategoryOptions cards={categories} />
 
       <div
