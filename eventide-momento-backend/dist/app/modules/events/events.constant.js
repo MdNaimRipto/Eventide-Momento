@@ -16,7 +16,7 @@ exports.EventCategoryEnums = [
     "EDUCATION",
     "SOCIAL",
 ];
-exports.EventSearchableFields = ["eventName", "location", "category"];
+exports.EventSearchableFields = ["eventName", "location"];
 exports.EventFilterableFields = [
     "searchTerm",
     "category",

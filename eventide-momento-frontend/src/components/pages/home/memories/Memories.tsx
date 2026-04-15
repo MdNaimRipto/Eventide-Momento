@@ -62,6 +62,7 @@ export default function Memories() {
               placeholder="blur"
               loading={idx < 2 ? "eager" : "lazy"}
               className="w-full h-full object-cover"
+              sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 100vw"
             />
           </div>
         ))}

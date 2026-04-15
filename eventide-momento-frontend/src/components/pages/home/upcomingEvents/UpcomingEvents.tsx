@@ -10,7 +10,7 @@ const lines = ["Discover", "Our Exciting", "Upcoming Events"];
 async function getUpcomingEvents(): Promise<IEvent[]> {
   const res = await fetch(
     `${apiConfig.BASE_URL}${apiConfig.EVENTS.GET_ALL}?status=UPCOMING`,
-    { cache: "force-cache" }
+    { cache: "force-cache" },
   );
 
   const json = await res.json();
