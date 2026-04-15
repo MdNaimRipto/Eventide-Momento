@@ -17,7 +17,7 @@ export const EventCategoryEnums: eventCategoryEnums[] = [
   "SOCIAL",
 ];
 
-export const EventSearchableFields = ["eventName", "location", "category"];
+export const EventSearchableFields = ["eventName", "location"];
 
 export const EventFilterableFields = [
   "searchTerm",
